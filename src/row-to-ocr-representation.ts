@@ -4,7 +4,6 @@ export const rowToOcrRepresentation = (code: number[]): string => {
     const ocr = code.map((number) => {
         return numberToOcrReference.get(number)?.split('\n').splice(1, 4) ?? '';
     });
-    //console.log(keys[0].split('\n').splice(1, 4));
 
     let strTotal = '';
     for (let e = 0; e < 4; e++) {

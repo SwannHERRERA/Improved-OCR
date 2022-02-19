@@ -87,6 +87,15 @@ describe('test parsing individual number from files', () => {
                 number.should.be.equal(i);
             }
         });
+
+        it('parse one compelte entry with some unreadable number ', async () => {
+            const resultCompleteEntries = [
+                [1, 2, 3, 4, 5, -1, 7, 8, -1],
+            ];
+
+            const res = await parseCodesFromFile('src/fixtures/entry-with-unreadable.txt');
+            res.should.deep.equal(resultCompleteEntries);
+        });
     });
 
     describe('parsing complete multiple entries', () => {

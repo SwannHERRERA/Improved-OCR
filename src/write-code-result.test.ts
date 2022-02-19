@@ -10,11 +10,17 @@ describe('test code to result format in result file', () => {
             codeToResultFormat(code).should.equal('123456789');
         });
 
-        it("from 33746589 code to 337465890 format because don't validate the checksum", () => {
+        it("from 337465890 code to 337465890 format because don't validate the checksum", () => {
             const code = [3, 3, 7, 4, 6, 5, 8, 9, 0];
 
             validCheckSum(computeChecksumValue(code)).should.be.false;
             codeToResultFormat(code).should.equal('337465890 ERR');
+        });
+
+        it("from 33-1465-192 code to 33?465?92 format because don't validate the checksum", () => {
+            const code = [3, 3, -1, 4, 6, 5, -1, 9, 2];
+
+            codeToResultFormat(code).should.equal('33?465?92 ILL');
         });
     });
 });
