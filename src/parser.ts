@@ -1,7 +1,7 @@
 import { AssertionError } from 'chai';
 import fs from 'fs/promises';
 import { DIGIT_HEIGHT, DIGIT_WIDTH } from './config';
-import { numberToOcrReference } from './number-to-ocr-reference';
+import { numberToOcrReference, OcrReferenceToNumber } from './number-to-ocr-reference';
 
 export const parse = async (pathToFile: string): Promise<string> => {
     try {
@@ -35,7 +35,7 @@ export const parseCodesFromFile = async (path: string): Promise<number[][]> => {
         const codeFromLine: number[] = [];
         for (let i = 0; i < 9; i += 1) {
             const res = extractDigit(entry, DIGIT_WIDTH * i);
-            const number = numberToOcrReference.get(res);
+            const number = OcrReferenceToNumber.get(res);
             if (typeof number === 'undefined') {
                 throw new AssertionError(`${res} has no results`);
             }

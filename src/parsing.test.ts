@@ -1,7 +1,7 @@
 import { AssertionError, expect, should } from 'chai';
 import { describe, it } from 'mocha';
 import { DIGIT_HEIGHT, DIGIT_WIDTH } from './config';
-import { numberToOcrReference } from './number-to-ocr-reference';
+import { OcrReferenceToNumber } from './number-to-ocr-reference';
 import { extractDigit, extractEntry, parse, parseCodesFromFile } from './parser';
 
 should();
@@ -30,7 +30,7 @@ describe('test parsing individual number from files', () => {
         it('file one should be equal to 1', async () => {
             const fileContent = (await parse(`${baseDigitPath}/one.txt`)).split('\n');
             const str = extractDigit(fileContent, 0);
-            const one = numberToOcrReference.get(str);
+            const one = OcrReferenceToNumber.get(str);
             if (typeof one === 'undefined') {
                 throw new AssertionError('one in undefined');
             }
@@ -52,7 +52,7 @@ describe('test parsing individual number from files', () => {
             filenames.forEach(async (filename, index) => {
                 const fileContent = (await parse(filename)).split('\n');
                 const str = extractDigit(fileContent, 0);
-                const number = numberToOcrReference.get(str);
+                const number = OcrReferenceToNumber.get(str);
                 if (typeof number === 'undefined') {
                     throw new AssertionError('number in undefined');
                 }
@@ -64,13 +64,13 @@ describe('test parsing individual number from files', () => {
         it('parse one and two in the same file', async () => {
             const fileContent = (await parse('src/fixtures/one-two.txt')).split('\n');
             const strOne = extractDigit(fileContent, 0);
-            const one = numberToOcrReference.get(strOne);
+            const one = OcrReferenceToNumber.get(strOne);
             if (typeof one === 'undefined') {
                 throw new AssertionError('one in undefined');
             }
             one.should.be.equal(1);
             const strTwo = extractDigit(fileContent, DIGIT_WIDTH);
-            const two = numberToOcrReference.get(strTwo);
+            const two = OcrReferenceToNumber.get(strTwo);
             if (typeof two === 'undefined') {
                 throw new AssertionError('two in undefined');
             }
@@ -80,7 +80,7 @@ describe('test parsing individual number from files', () => {
             const fileContent = (await parse('src/fixtures/all-digit.txt')).split('\n');
             for (let i = 1; i < 9; i += 1) {
                 const str = extractDigit(fileContent, DIGIT_WIDTH * (i - 1));
-                const number = numberToOcrReference.get(str);
+                const number = OcrReferenceToNumber.get(str);
                 if (typeof number === 'undefined') {
                     throw new AssertionError('one in undefined');
                 }

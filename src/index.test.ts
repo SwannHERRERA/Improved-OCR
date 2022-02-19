@@ -1,6 +1,6 @@
 import { AssertionError, should } from 'chai';
 import { describe, it } from 'mocha';
-import { numberToOcrReference } from './number-to-ocr-reference';
+import { OcrReferenceToNumber } from './number-to-ocr-reference';
 
 should();
 
@@ -11,7 +11,7 @@ describe('test string concatenate to number OCR reference', () => {
         str += '|_|\n';
         str += ' _|\n';
         str += '   \n';
-        const nine = numberToOcrReference.get(str);
+        const nine = OcrReferenceToNumber.get(str);
         if (typeof nine === 'undefined') {
             throw new AssertionError('nine in undefined');
         }
@@ -23,7 +23,7 @@ describe('test string concatenate to number OCR reference', () => {
         str += '|_|\n';
         str += ' _c|\n';
         str += '   \n';
-        const nine = numberToOcrReference.get(str);
+        const nine = OcrReferenceToNumber.get(str);
         (typeof nine === 'undefined').should.be.true;
     });
     it('height should be equal to reference', () => {
@@ -32,7 +32,7 @@ describe('test string concatenate to number OCR reference', () => {
         str += '|_|\n';
         str += '|_|\n';
         str += '   \n';
-        const height = numberToOcrReference.get(str);
+        const height = OcrReferenceToNumber.get(str);
         if (typeof height === 'undefined') {
             throw new AssertionError('height in undefined');
         }
@@ -44,7 +44,7 @@ describe('test string concatenate to number OCR reference', () => {
         str += '  |\n';
         str += '  |\n';
         str += '   \n';
-        const seven = numberToOcrReference.get(str);
+        const seven = OcrReferenceToNumber.get(str);
         if (typeof seven === 'undefined') {
             throw new AssertionError('seven in undefined');
         }
@@ -56,7 +56,7 @@ describe('test string concatenate to number OCR reference', () => {
         str += '|_ \n';
         str += '|_|\n';
         str += '   \n';
-        const six = numberToOcrReference.get(str);
+        const six = OcrReferenceToNumber.get(str);
         if (typeof six === 'undefined') {
             throw new AssertionError('six in undefined');
         }
@@ -68,7 +68,7 @@ describe('test string concatenate to number OCR reference', () => {
         str += '|_ \n';
         str += ' _|\n';
         str += '   \n';
-        const five = numberToOcrReference.get(str);
+        const five = OcrReferenceToNumber.get(str);
         if (typeof five === 'undefined') {
             throw new AssertionError('five in undefined');
         }
@@ -80,7 +80,7 @@ describe('test string concatenate to number OCR reference', () => {
         str += '|_|\n';
         str += '  |\n';
         str += '   \n';
-        const four = numberToOcrReference.get(str);
+        const four = OcrReferenceToNumber.get(str);
         if (typeof four === 'undefined') {
             throw new AssertionError('four in undefined');
         }
@@ -92,7 +92,7 @@ describe('test string concatenate to number OCR reference', () => {
         str += ' _|\n';
         str += ' _|\n';
         str += '   \n';
-        const three = numberToOcrReference.get(str);
+        const three = OcrReferenceToNumber.get(str);
         if (typeof three === 'undefined') {
             throw new AssertionError('three in undefined');
         }
@@ -104,7 +104,7 @@ describe('test string concatenate to number OCR reference', () => {
         str += ' _|\n';
         str += '|_ \n';
         str += '   \n';
-        const two = numberToOcrReference.get(str);
+        const two = OcrReferenceToNumber.get(str);
         if (typeof two === 'undefined') {
             throw new AssertionError('two in undefined');
         }
@@ -116,7 +116,7 @@ describe('test string concatenate to number OCR reference', () => {
         str += '  |\n';
         str += '  |\n';
         str += '   \n';
-        const one = numberToOcrReference.get(str);
+        const one = OcrReferenceToNumber.get(str);
         if (typeof one === 'undefined') {
             throw new AssertionError('one in undefined');
         }
