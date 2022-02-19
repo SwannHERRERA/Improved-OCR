@@ -30,4 +30,26 @@ describe('test parsing individual number from files', () => {
         }
         one.should.be.equal(1);
     });
+    it('group', async () => {
+        const filenames = [
+            'src/fixtures/one.txt',
+            'src/fixtures/two.txt',
+            'src/fixtures/three.txt',
+            'src/fixtures/four.txt',
+            'src/fixtures/five.txt',
+            'src/fixtures/six.txt',
+            'src/fixtures/seven.txt',
+            'src/fixtures/height.txt',
+            'src/fixtures/nine.txt',
+        ];
+        filenames.forEach(async (filename, index) => {
+            const fileContent = (await parse(filename)).split('\n');
+            const str = extractDigit(fileContent, 0);
+            const number = numberToOcrReference.get(str);
+            if (typeof number === 'undefined') {
+                throw new AssertionError('number in undefined');
+            }
+            number.should.be.equal(index + 1);
+        });
+    });
 });
