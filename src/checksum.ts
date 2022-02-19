@@ -1,9 +1,8 @@
 export const computeChecksumValue = (code: number[]): number => {
-    return (
-        code.reverse().reduce((previousValue, value, index) => {
-            return previousValue + value * (index + 1);
-        }, 0) 
-    );
+    const codeClone = [...code].reverse();
+    return codeClone.reduce((previousValue, value, index) => {
+        return previousValue + value * (index + 1);
+    }, 0);
 };
 
 export const validCheckSum = (checksum: number): boolean => {

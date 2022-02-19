@@ -1,6 +1,6 @@
 import { numberToOcrReference } from './number-to-ocr-reference';
 
-export const codeToOCRRepresentation = (code: number[]): string => {
+export const rowToOcrRepresentation = (code: number[]): string => {
     const ocr = code.map((number) => {
         return numberToOcrReference.get(number)?.split('\n').splice(1, 4) ?? '';
     });
