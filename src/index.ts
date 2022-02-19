@@ -1,3 +1,3 @@
-import { codeToOCRRepresentation } from "./code-to-ocr-representation";
+import { rowToOcrRepresentation } from './row-to-ocr-representation';
 
 console.log();

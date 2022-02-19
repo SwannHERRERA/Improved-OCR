@@ -1,7 +1,7 @@
 import { AssertionError } from 'chai';
 import fs from 'fs/promises';
 import { DIGIT_HEIGHT, DIGIT_WIDTH } from './config';
-import { numberToOcrReference, OcrReferenceToNumber } from './number-to-ocr-reference';
+import { OcrReferenceToNumber } from './number-to-ocr-reference';
 
 export const parse = async (pathToFile: string): Promise<string> => {
     try {
