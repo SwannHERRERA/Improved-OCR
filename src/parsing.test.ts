@@ -9,7 +9,16 @@ describe('test parsing individual number from files', () => {
         try {
             await parse('file-doesnt-exist.txt');
             expect.fail('file does not exist');
-        } catch (error) {}
+        } catch (error) {
+            console.log(error);
+        }
+    });
+    it('file exist', async () => {
+        try {
+            await parse('src/fixtures/one.txt');
+        } catch (error) {
+            expect.fail('file does not exist');
+        }
     });
     // it('file one should be equal to 1', async () => {
 
