@@ -9,7 +9,7 @@ Vous devez écrire un programme pour parser ce fichier.
 Le format créé par la machine est le suivant :
 
 ```
-    _  _     _  _  _  _  _
+    _  _     _  _  _  _  _ 
   | _| _||_||_ |_   ||_||_|
   ||_  _|  | _||_|  ||_| _|
 
