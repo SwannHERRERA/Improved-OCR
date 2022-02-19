@@ -53,14 +53,14 @@ const nine = `
    
 `;
 
-export const numberToOcrReference: Map<number, string> = new Map([
-    [1, one],
-    [2, two],
-    [3, three],
-    [4, four],
-    [5, five],
-    [6, six],
-    [7, sever],
-    [8, height],
-    [9, nine],
+export const numberToOcrReference: Map<string, number> = new Map([
+    [one, 1],
+    [two, 2],
+    [three, 3],
+    [four, 4],
+    [five, 5],
+    [six, 6],
+    [sever, 7],
+    [height, 8],
+    [nine, 9],
 ]);
