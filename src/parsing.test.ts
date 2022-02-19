@@ -1,5 +1,6 @@
 import { AssertionError, expect, should } from 'chai';
 import { describe, it } from 'mocha';
+import { digitWidth } from './config';
 import { numberToOcrReference } from './number-to-ocr-reference';
 import { extractDigit, parse } from './parser';
 
@@ -51,5 +52,31 @@ describe('test parsing individual number from files', () => {
             }
             number.should.be.equal(index + 1);
         });
+    });
+    it('parse one and two in the same file', async () => {
+        const fileContent = (await parse('src/fixtures/one-two.txt')).split('\n');
+        const strOne = extractDigit(fileContent, 0);
+        const one = numberToOcrReference.get(strOne);
+        if (typeof one === 'undefined') {
+            throw new AssertionError('one in undefined');
+        }
+        one.should.be.equal(1);
+        const strTwo = extractDigit(fileContent, digitWidth);
+        const two = numberToOcrReference.get(strTwo);
+        if (typeof two === 'undefined') {
+            throw new AssertionError('two in undefined');
+        }
+        two.should.be.equal(2);
+    });
+    it('parse all digits in a pod', async () => {
+        for (let i = 1; i < 9; i += 1) {
+            const fileContent = (await parse('src/fixtures/all-digit.txt')).split('\n');
+            const str = extractDigit(fileContent, digitWidth * (i - 1));
+            const number = numberToOcrReference.get(str);
+            if (typeof number === 'undefined') {
+                throw new AssertionError('one in undefined');
+            }
+            number.should.be.equal(i);
+        }
     });
 });

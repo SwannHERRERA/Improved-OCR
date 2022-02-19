@@ -12,7 +12,7 @@ export const parse = async (pathToFile: string): Promise<string> => {
 export const extractDigit = (fileContent: string[], startIndex: number) => {
     let str = '\n';
     for (let i = 0; i < digitHeight; i += 1) {
-        str += fileContent[i].slice(startIndex, digitWidth);
+        str += fileContent[i].slice(startIndex, digitWidth + startIndex);
         str += '\n';
     }
     return str;

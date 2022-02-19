@@ -17,6 +17,15 @@ describe('test string concatenate to number OCR reference', () => {
         }
         nine.should.be.equal(9);
     });
+    it('nine should be undefined', () => {
+        let str = '\n';
+        str += ' _ \n';
+        str += '|_|\n';
+        str += ' _c|\n';
+        str += '   \n';
+        const nine = numberToOcrReference.get(str);
+        (typeof nine === 'undefined').should.be.true;
+    });
     it('height should be equal to reference', () => {
         let str = '\n';
         str += ' _ \n';
