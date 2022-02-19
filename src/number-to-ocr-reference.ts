@@ -1,3 +1,10 @@
+const zero = `
+ _ 
+| |
+|_|
+   
+`;
+
 const one = `
    
   |
@@ -54,6 +61,7 @@ const nine = `
 `;
 
 export const numberToOcrReference: Map<string, number> = new Map([
+    [zero, 0],
     [one, 1],
     [two, 2],
     [three, 3],
