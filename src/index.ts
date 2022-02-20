@@ -12,8 +12,8 @@ const main = async (paths: string[]) => {
         if (path !== paths[paths.length - 1]) str += '\n';
     }
 
-    const parser = new Parser(str, 3, 4);
-    console.log(parser.extractCodes());
+    const parser = new Parser(3, 4);
+    console.log(parser.extractCodes(str));
 };
 
 main(paths);

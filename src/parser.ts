@@ -3,29 +3,30 @@ import { DIGIT_HEIGHT, DIGIT_WIDTH } from './config';
 import { OcrReferenceToNumber } from './number-to-ocr-reference';
 
 export class Parser {
-    private contentParse: string;
     private digitWidth: number;
     private digitHeight: number;
 
-    constructor(contentParse: string, digitWidth: number, digitHeight: number) {
-        this.contentParse = contentParse;
+    constructor(digitWidth: number, digitHeight: number) {
         this.digitHeight = digitHeight;
         this.digitWidth = digitWidth;
     }
 
-    public async extractCodes(): Promise<number[][]> {
-        const contentLines = this.contentParse.split('\n');
-        const numberEntries = contentLines.length / this.digitHeight;
-        const codesFromFile: number[][] = [];
+    public extractCodes(contentParse: string): string[] {
+        const fileContent = contentParse.split('\n');
+        const numberEntries = fileContent.length / this.digitHeight;
+        const codesFromFile: string[] = [];
 
         for (let e = 0; e < numberEntries; e++) {
-            const entry = this.extractEntry(contentLines, e);
-            const codeFromLine: number[] = [];
+            const entry = this.extractEntry(fileContent, e);
+            let codeFromLine = '';
             for (let i = 0; i < 9; i += 1) {
                 const res = this.extractDigit(entry, this.digitWidth * i);
-                const number = OcrReferenceToNumber.get(res) ?? -1;
-
-                codeFromLine.push(number);
+                const number = OcrReferenceToNumber.get(res);
+                if (typeof number === 'undefined') {
+                    codeFromLine += '?';
+                } else {
+                    codeFromLine += number.toString();
+                }
             }
             codesFromFile.push(codeFromLine);
         }
@@ -34,14 +35,14 @@ export class Parser {
     }
 
     private extractEntry(fileContent: string[], indexLine: number): string[] {
-        const start = DIGIT_HEIGHT * indexLine;
-        return fileContent.slice(start, start + DIGIT_HEIGHT);
+        const start = this.digitHeight * indexLine;
+        return fileContent.slice(start, start + this.digitHeight);
     }
 
     private extractDigit(fileContent: string[], startIndex: number): string {
         let str = '\n';
-        for (let i = 0; i < DIGIT_HEIGHT; i += 1) {
-            str += fileContent[i].slice(startIndex, DIGIT_WIDTH + startIndex);
+        for (let i = 0; i < this.digitHeight; i += 1) {
+            str += fileContent[i].slice(startIndex, this.digitWidth + startIndex);
             str += '\n';
         }
         return str;

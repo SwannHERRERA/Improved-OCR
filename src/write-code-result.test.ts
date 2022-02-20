@@ -1,5 +1,7 @@
 import { computeChecksumValue, validCheckSum } from './checksum';
-import { codeToResultFormat } from './write-code-result';
+import { DIGIT_HEIGHT, DIGIT_WIDTH } from './config';
+import { parse, Parser } from './parser';
+import { ClassifySingle, codeToResultFormat } from './write-code-result';
 
 describe('test code to result format in result file', () => {
     describe('change code to result format', () => {
@@ -21,6 +23,31 @@ describe('test code to result format in result file', () => {
             const code = '33?465?92';
 
             codeToResultFormat(code).should.equal('33?465?92 ILL');
+        });
+    });
+    describe('ClassifySingle', async () => {
+        it('classify single file', async () => {
+            const paths = [
+                'src/fixtures/complete-entries/two-complete-entries.txt',
+                'src/fixtures/complete-entries/checksum-error.txt',
+                'src/fixtures/entry-with-unreadable.txt',
+            ];
+            const classifier = new ClassifySingle(new Parser(DIGIT_WIDTH, DIGIT_HEIGHT));
+            classifier.write(paths);
+            const twoCompleteEntryResult = await parse(
+                'src/fixtures/complete-entries/two-complete-entries.txt.result'
+            );
+            twoCompleteEntryResult.should.be.equal('123456789\n356619702');
+
+            const checksumErrorResult = await parse(
+                'src/fixtures/complete-entries/checksum-error.txt.result'
+            );
+            checksumErrorResult.should.be.equal('123456789\n356619782 ERR');
+
+            const entryWithUnreadableResult = await parse(
+                'src/fixtures/entry-with-unreadable.txt.result'
+            );
+            entryWithUnreadableResult.should.be.equal('12345?78? ILL');
         });
     });
 });

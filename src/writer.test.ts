@@ -6,7 +6,7 @@ should();
 
 describe('test to write in a file', () => {
     it('write string in a file', async () => {
-        await writeInFile('src/essai.txt', 'essai');
+        await writeInFile('src/essai.txt', ['essai']);
         const str = await parse('src/essai.txt');
         str.should.be.equal('essai');
     });

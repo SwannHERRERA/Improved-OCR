@@ -58,8 +58,8 @@ Parfois, la machine produit des nombres illisibles, comme le suivant :
   
 ```
 
-Votre programme doit être capable de repérer de tels problèmes.  
-Dans ce cas, les nombres inconnus sont remplacés par des '?'.  
+Votre programme doit être capable de repérer de tels problèmes.
+Dans ce cas, les nombres inconnus sont remplacés par des '?'.
 Mettez à jour votre sortie fichier. Avec le nombre illisible précédent, cela donnerait :
 
 457508000
@@ -70,7 +70,9 @@ Mettez à jour votre sortie fichier. Avec le nombre illisible précédent, cela 
 
 Votre manager aimerait faire un peu de classification.
 Pour un ensemble de fichiers donnés en entrée, il voudrait maintenant avoir la possibilité de :
+
 - soit garder le comportement actuel et créer un fichier sortie pour chaque fichier entrée
+
 - soit utiliser un nouveau comportement qui lui permette de "regrouper" les codes similaires
 
 Ce comportement est le suivant : quelque soit le nombre de fichiers en entrée, le programme va créer 3 sorties nommées authorized, errored, et unknown
@@ -85,7 +87,6 @@ Fournissez un outil de commande aux autres développeurs de votre société pour
 
 Son implémentation est libre.
 
-
 ### Barème Indicatif
 
 1 - Parse codes - /2
@@ -96,6 +97,8 @@ Son implémentation est libre.
 6 - Cmd line - /2
 Tests - /2
 
-Pas 1 test par partie 	-1
-Non respect CQS 	-1
+Pas 1 test par partie -1
+
+Non respect CQS -1
+
 Non respect loi Demeter -1

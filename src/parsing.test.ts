@@ -25,6 +25,7 @@ describe('sanity check for reading file', () => {
 });
 
 describe('test parsing individual number from files', () => {
+    // const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT);
     const baseDigitPath = 'src/fixtures/simple-digits';
     describe('individual number in file', () => {
         it('file one should be equal to 1', async () => {
