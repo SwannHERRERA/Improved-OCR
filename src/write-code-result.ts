@@ -44,20 +44,20 @@ export class ClassifyGroup implements Classify {
             const content = await parse(path);
             const codes = this.parser.extractCodes(content);
             const output = codes.map((code) => codeToResultFormat(code));
-            await this.appendResult(output, path);
+            await this.appendResult(output, 'src/fixtures/result-');
         }
     }
     private async appendResult(lines: string[], directory: string) {
-        lines.forEach((line) => {
+        for (const line of lines) {
             const keys = Array.from(this.errorSuffix.keys());
             for (const key of keys) {
                 if (line.includes(key)) {
-                    appendInFile(directory + this.errorSuffix.get(key), [line]);
+                    await appendInFile(directory + this.errorSuffix.get(key), line);
                     return;
                 }
             }
-            appendInFile(directory + this.authorisedPath, [line]);
-        });
+            await appendInFile(directory + this.authorisedPath, line);
+        }
     }
 }
 

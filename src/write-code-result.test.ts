@@ -1,7 +1,8 @@
+import { unlink } from 'fs/promises';
 import { computeChecksumValue, validCheckSum } from './checksum';
 import { DIGIT_HEIGHT, DIGIT_WIDTH } from './config';
 import { parse, Parser } from './parser';
-import { ClassifySingle, codeToResultFormat } from './write-code-result';
+import { ClassifyGroup, ClassifySingle, codeToResultFormat } from './write-code-result';
 
 describe('test code to result format in result file', () => {
     describe('change code to result format', () => {
@@ -26,7 +27,7 @@ describe('test code to result format in result file', () => {
         });
     });
     describe('ClassifySingle', async () => {
-        it('classify single file', async () => {
+        it('classify file', async () => {
             const paths = [
                 'src/fixtures/complete-entries/two-complete-entries.txt',
                 'src/fixtures/complete-entries/checksum-error.txt',
@@ -48,6 +49,34 @@ describe('test code to result format in result file', () => {
                 'src/fixtures/entry-with-unreadable.txt.result'
             );
             entryWithUnreadableResult.should.be.equal('12345?78? ILL');
+        });
+    });
+
+    describe('ClassifyGrouped', async () => {
+        it('classify file', async () => {
+            const paths = [
+                'src/fixtures/complete-entries/two-complete-entries.txt',
+                'src/fixtures/complete-entries/checksum-error.txt',
+                'src/fixtures/entry-with-unreadable.txt',
+            ];
+            try {
+                await unlink('src/fixtures/result-Authorized');
+                await unlink('src/fixtures/result-Errored');
+                await unlink('src/fixtures/result-Unknown');
+            } catch (error) {
+                console.log(error);
+            }
+            const classifier = new ClassifyGroup(new Parser(DIGIT_WIDTH, DIGIT_HEIGHT));
+            await classifier.write(paths);
+            const resultAuthorized = await parse('src/fixtures/result-Authorized');
+            resultAuthorized.should.be.equal('123456789\n356619702\n123456789\n');
+            const resultUnknown = await parse('src/fixtures/result-Unknown');
+            resultUnknown.should.be.equal('12345?78? ILL\n');
+            const resultErrored = await parse('src/fixtures/result-Errored');
+            resultErrored.should.be.equal('356619782 ERR\n');
+            await unlink('src/fixtures/result-Authorized');
+            await unlink('src/fixtures/result-Errored');
+            await unlink('src/fixtures/result-Unknown');
         });
     });
 });
