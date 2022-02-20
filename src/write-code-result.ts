@@ -1,6 +1,6 @@
 import { computeChecksumValue, validCheckSum } from './checksum';
 import { parse, Parser } from './parser';
-import { writeInFile } from './writer';
+import { appendInFile, writeInFile } from './writer';
 
 export const codeToResultFormat = (code: string): string => {
     if (code.includes('?')) return code + ' ILL';
@@ -24,6 +24,40 @@ export class ClassifySingle implements Classify {
             const outputFile = path + '.result';
             await writeInFile(outputFile, output);
         }
+    }
+}
+
+export class ClassifyGroup implements Classify {
+    private parser: Parser;
+
+    constructor(parser: Parser) {
+        this.parser = parser;
+    }
+    private errorSuffix: Map<string, string> = new Map([
+        ['ILL', 'Unknown'],
+        ['ERR', 'Errored'],
+    ]);
+    private authorisedPath = 'Authorized';
+
+    async write(paths: string[]): Promise<void> {
+        for (const path of paths) {
+            const content = await parse(path);
+            const codes = this.parser.extractCodes(content);
+            const output = codes.map((code) => codeToResultFormat(code));
+            await this.appendResult(output, path);
+        }
+    }
+    private async appendResult(lines: string[], directory: string) {
+        lines.forEach((line) => {
+            const keys = Array.from(this.errorSuffix.keys());
+            for (const key of keys) {
+                if (line.includes(key)) {
+                    appendInFile(directory + this.errorSuffix.get(key), [line]);
+                    return;
+                }
+            }
+            appendInFile(directory + this.authorisedPath, [line]);
+        });
     }
 }
 
