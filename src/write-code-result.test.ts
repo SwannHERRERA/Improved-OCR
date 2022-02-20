@@ -64,9 +64,12 @@ describe('test code to result format in result file', () => {
                 await unlink('src/fixtures/result-Errored');
                 await unlink('src/fixtures/result-Unknown');
             } catch (error) {
-                console.log(error);
+                // files doesn't exist
             }
-            const classifier = new ClassifyGroup(new Parser(DIGIT_WIDTH, DIGIT_HEIGHT));
+            const classifier = new ClassifyGroup(
+                new Parser(DIGIT_WIDTH, DIGIT_HEIGHT),
+                'src/fixtures/result-'
+            );
             await classifier.write(paths);
             const resultAuthorized = await parse('src/fixtures/result-Authorized');
             resultAuthorized.should.be.equal('123456789\n356619702\n123456789\n');

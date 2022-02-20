@@ -29,10 +29,13 @@ export class ClassifySingle implements Classify {
 
 export class ClassifyGroup implements Classify {
     private parser: Parser;
+    private outputDirectory: string;
 
-    constructor(parser: Parser) {
+    constructor(parser: Parser, outputDirectory: string) {
         this.parser = parser;
+        this.outputDirectory = outputDirectory;
     }
+
     private errorSuffix: Map<string, string> = new Map([
         ['ILL', 'Unknown'],
         ['ERR', 'Errored'],
@@ -44,19 +47,19 @@ export class ClassifyGroup implements Classify {
             const content = await parse(path);
             const codes = this.parser.extractCodes(content);
             const output = codes.map((code) => codeToResultFormat(code));
-            await this.appendResult(output, 'src/fixtures/result-');
+            await this.appendResult(output);
         }
     }
-    private async appendResult(lines: string[], directory: string) {
+    private async appendResult(lines: string[]) {
         for (const line of lines) {
             const keys = Array.from(this.errorSuffix.keys());
             for (const key of keys) {
                 if (line.includes(key)) {
-                    await appendInFile(directory + this.errorSuffix.get(key), line);
+                    await appendInFile(this.outputDirectory + this.errorSuffix.get(key), line);
                     return;
                 }
             }
-            await appendInFile(directory + this.authorisedPath, line);
+            await appendInFile(this.outputDirectory + this.authorisedPath, line);
         }
     }
 }
