@@ -89,9 +89,7 @@ describe('test parsing individual number from files', () => {
         });
 
         it('parse one compelte entry with some unreadable number ', async () => {
-            const resultCompleteEntries = [
-                [1, 2, 3, 4, 5, -1, 7, 8, -1],
-            ];
+            const resultCompleteEntries = ['12345?78?'];
 
             const res = await parseCodesFromFile('src/fixtures/entry-with-unreadable.txt');
             res.should.deep.equal(resultCompleteEntries);
@@ -126,13 +124,11 @@ describe('test parsing individual number from files', () => {
             entries[1].should.deep.equal(entryTwo);
         });
         it('parse 2 complete entries in one file', async () => {
-            
-            const resultCompleteEntries = [
-                [1, 2, 3, 4, 5, 6, 7, 8, 9],
-                [3, 5, 6, 6, 1, 9, 7, 0, 2],
-            ];
+            const resultCompleteEntries = ['123456789', '356619702'];
 
-            const res = await parseCodesFromFile('src/fixtures/complete-entries/two-complete-entries.txt');
+            const res = await parseCodesFromFile(
+                'src/fixtures/complete-entries/two-complete-entries.txt'
+            );
             res.should.deep.equal(resultCompleteEntries);
         });
     });

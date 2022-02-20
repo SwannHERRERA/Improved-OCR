@@ -1,5 +1,8 @@
-export const computeChecksumValue = (code: number[]): number => {
-    const codeClone = [...code].reverse();
+export const computeChecksumValue = (code: string): number => {
+    const codeClone = code
+        .split('')
+        .map((x) => Number.parseInt(x))
+        .reverse();
     return codeClone.reduce((previousValue, value, index) => {
         return previousValue + value * (index + 1);
     }, 0);

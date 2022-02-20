@@ -70,19 +70,22 @@ export const extractEntry = (fileContent: string[], indexLine: number) => {
     return fileContent.slice(start, start + DIGIT_HEIGHT);
 };
 
-export const parseCodesFromFile = async (path: string): Promise<number[][]> => {
+export const parseCodesFromFile = async (path: string): Promise<string[]> => {
     const fileContent = (await parse(path)).split('\n');
     const numberEntries = fileContent.length / DIGIT_HEIGHT;
-    const codesFromFile: number[][] = [];
+    const codesFromFile: string[] = [];
 
     for (let e = 0; e < numberEntries; e++) {
         const entry = extractEntry(fileContent, e);
-        const codeFromLine: number[] = [];
+        let codeFromLine = '';
         for (let i = 0; i < 9; i += 1) {
             const res = extractDigit(entry, DIGIT_WIDTH * i);
-            const number = OcrReferenceToNumber.get(res) ?? -1;
-
-            codeFromLine.push(number);
+            const number = OcrReferenceToNumber.get(res);
+            if (typeof number === 'undefined') {
+                codeFromLine += '?';
+            } else {
+                codeFromLine += number.toString();
+            }
         }
         codesFromFile.push(codeFromLine);
     }

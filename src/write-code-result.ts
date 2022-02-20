@@ -1,8 +1,6 @@
 import { computeChecksumValue, validCheckSum } from './checksum';
 
-export const codeToResultFormat = (code: number[]): string => {
-    const codeToString = code.join('');
-    const codeReplace = codeToString.replace(/-1/gm, '?');
-    if (codeReplace.includes('?')) return codeReplace + ' ILL';
-    return validCheckSum(computeChecksumValue(code)) ? codeToString : codeToString + ' ERR';
+export const codeToResultFormat = (code: string): string => {
+    if (code.includes('?')) return code + ' ILL';
+    return validCheckSum(computeChecksumValue(code)) ? code : code + ' ERR';
 };
