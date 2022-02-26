@@ -33,7 +33,12 @@ describe('test code to result format in result file', () => {
                 'src/fixtures/complete-entries/checksum-error.txt',
                 'src/fixtures/entry-with-unreadable.txt',
             ];
-            const classifier = new ClassifySingle(new Parser(DIGIT_WIDTH, DIGIT_HEIGHT));
+            const outputPaths = [
+                'src/fixtures/complete-entries/two-complete-entries.txt.result',
+                'src/fixtures/complete-entries/checksum-error.txt.result',
+                'src/fixtures/entry-with-unreadable.txt.result',
+            ];
+            const classifier = new ClassifySingle(new Parser(DIGIT_WIDTH, DIGIT_HEIGHT), outputPaths);
             classifier.write(paths);
             const twoCompleteEntryResult = await parse(
                 'src/fixtures/complete-entries/two-complete-entries.txt.result'

@@ -31,7 +31,7 @@ export class Cli {
             const paramFormated = paramMatched.replace(/ /g, '$%&');
             result = result.replace(paramMatched, paramFormated);
         });
-        return result;
+        return result.replace(/"/g, '');
     }
 
     private mapArgToValue(arg: string, value: string) {

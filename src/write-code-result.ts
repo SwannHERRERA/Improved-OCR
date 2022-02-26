@@ -13,17 +13,28 @@ export const codeToResultFormat = (code: string): string => {
 
 export class ClassifySingle implements Classify {
     private parser: Parser;
-    constructor(parser: Parser) {
+    private outputFiles: string[];
+
+    constructor(parser: Parser, outputFiles: string[]) {
         this.parser = parser;
+        this.outputFiles = outputFiles;
     }
     public async write(paths: string[]) {
-        for (const path of paths) {
-            const content = await parse(path);
+        for (let index = 0; index < paths.length; index++) {
+            const content = await parse(paths[index]);
             const codes = this.parser.extractCodes(content);
             const output = codes.map((code) => codeToResultFormat(code));
-            const outputFile = path + '.result';
+            const outputFile = this.outputFiles[index]
             await writeInFile(outputFile, output);
         }
+
+        // for (const path of paths) {
+        //     const content = await parse(path);
+        //     const codes = this.parser.extractCodes(content);
+        //     const output = codes.map((code) => codeToResultFormat(code));
+        //     const outputFile = path + '.result';
+        //     await writeInFile(outputFile, output);
+        // }
     }
 }
 
