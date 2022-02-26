@@ -1,6 +1,7 @@
 import { computeChecksumValue, validCheckSum } from './checksum';
 import { parse, Parser } from './parser';
-import { Writer, WriterInFile } from './writer';
+import { Writer } from './writer/writer';
+import { WriterInFile } from './writer/writer-in-file';
 
 export const codeToResultFormat = (code: string): string => {
     if (code.includes('?')) return code + ' ILL';
@@ -25,7 +26,7 @@ export class ClassifySingle implements Classify {
             const codes = this.parser.extractCodes(content);
             const output = codes.map((code) => codeToResultFormat(code));
             const outputFile = this.outputFiles[index];
-            const writer = new WriterInFile('w', outputFile);
+            const writer: Writer = new WriterInFile('w', outputFile);
             await writer.write(output);
         }
     }

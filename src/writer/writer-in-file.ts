@@ -1,9 +1,6 @@
 import fs from 'fs/promises';
+import { Writer } from './writer';
 
-export interface Writer {
-    // eslint-disable-next-line no-unused-vars
-    write(content: string[]): Promise<void>;
-}
 
 export class WriterInFile implements Writer {
     private mode: 'a' | 'w';
@@ -36,12 +33,3 @@ export class WriterInFile implements Writer {
         });
     }
 }
-
-/*export const writeInFile = async (path: string, content: string[]): Promise<void> => {
-    await fs.writeFile(path, content.join('\n'));
-};
-export const appendInFile = async (path: string, content: string[]): Promise<void> => {
-    await fs.appendFile(path, content.join('\n'), {
-        flag: 'a+',
-    });
-};*/
