@@ -1,6 +1,6 @@
 import { computeChecksumValue, validCheckSum } from './checksum';
 import { parse, Parser } from './parser';
-import { appendInFile, writeInFile } from './writer';
+import { Writer, WriterInFile } from './writer';
 
 export const codeToResultFormat = (code: string): string => {
     if (code.includes('?')) return code + ' ILL';
@@ -24,17 +24,10 @@ export class ClassifySingle implements Classify {
             const content = await parse(paths[index]);
             const codes = this.parser.extractCodes(content);
             const output = codes.map((code) => codeToResultFormat(code));
-            const outputFile = this.outputFiles[index]
-            await writeInFile(outputFile, output);
+            const outputFile = this.outputFiles[index];
+            const writer = new WriterInFile('w', outputFile);
+            await writer.write(output);
         }
-
-        // for (const path of paths) {
-        //     const content = await parse(path);
-        //     const codes = this.parser.extractCodes(content);
-        //     const output = codes.map((code) => codeToResultFormat(code));
-        //     const outputFile = path + '.result';
-        //     await writeInFile(outputFile, output);
-        // }
     }
 }
 
@@ -66,11 +59,16 @@ export class ClassifyGroup implements Classify {
             const keys = Array.from(this.errorSuffix.keys());
             for (const key of keys) {
                 if (line.includes(key)) {
-                    await appendInFile(this.outputDirectory + this.errorSuffix.get(key), line);
+                    const Writer = new WriterInFile(
+                        'a',
+                        this.outputDirectory + this.errorSuffix.get(key)
+                    );
+                    await Writer.write([line]);
                     return;
                 }
             }
-            await appendInFile(this.outputDirectory + this.authorisedPath, line);
+            const Writer = new WriterInFile('a', this.outputDirectory + this.authorisedPath);
+            await Writer.write([line]);
         }
     }
 }
