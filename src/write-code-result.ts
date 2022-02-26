@@ -64,7 +64,7 @@ export class ClassifyGroup implements Classify {
     }
 }
 
-interface Classify {
+export interface Classify {
     // eslint-disable-next-line no-unused-vars
     write(paths: string[]): void;
 }
