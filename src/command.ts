@@ -1,6 +1,7 @@
 import { CliFunctionnality } from './cli';
-import { Parser } from './parser';
-import { Classify, ClassifyGroup, ClassifySingle } from './write-code-result';
+import { parse, Parser } from './parser';
+import { Classify, ClassifyGroup, ClassifySingle, codeToResultFormat } from './write-code-result';
+import { WriterInConsole } from './writer/writer-in-console';
 
 export class Command {
     private parser: Parser;
@@ -17,7 +18,7 @@ export class Command {
         this.argsParsed = argsParsed;
     }
 
-    public process() {
+    public async process() {
         const inputFiles = this.argsParsed.get(
             this.argsConfigured.get(CliFunctionnality.INPUT_FILE) ?? ''
         );
@@ -26,13 +27,23 @@ export class Command {
         );
 
         if (inputFiles) {
-            let classifier: Classify;
-            if (outputFiles) {
-                classifier = new ClassifySingle(this.parser, outputFiles);
-            } else {
-                classifier = new ClassifyGroup(this.parser, '/Users/remy/Desktop/');
+            if(this.argsConfigured.has(CliFunctionnality.CONSOLE_OUTPUT)) {
+                const Writer = new WriterInConsole();
+                for (const path of inputFiles) {
+                    const content = await parse(path);
+                    const codes = this.parser.extractCodes(content);
+                    const output = codes.map((code) => codeToResultFormat(code));
+                    await Writer.write(output);
+                }
+            }else {
+                let classifier: Classify;
+                if (outputFiles) {
+                    classifier = new ClassifySingle(this.parser, outputFiles);
+                } else {
+                    classifier = new ClassifyGroup(this.parser, '/Users/remy/Desktop/');
+                }
+                classifier.write(inputFiles);
             }
-            classifier.write(inputFiles);
 
             // si on match zéro scénaerio on affiche un helper dans la console
         }

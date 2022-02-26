@@ -59,7 +59,7 @@ describe('test to write', () => {
             testApp.stdout.on('data', (data) => {
                 const stdoutData = data;
                 console.log(stdoutData);
-                expect(stdoutData).equal('jean\npomme');
+                expect(stdoutData).equal('jean\npomme\n');
                 expect(stdoutData).not.equal('jean pomme');
                 testApp.kill('SIGINT');
             });

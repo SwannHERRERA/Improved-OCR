@@ -3,6 +3,7 @@ import { ArgNotFound } from './error/arg-not-found';
 export enum CliFunctionnality {
     INPUT_FILE,
     OUTPUT_FILE,
+    CONSOLE_OUTPUT,
 }
 
 export class Cli {
@@ -18,6 +19,11 @@ export class Cli {
         const formatedInput = this.formatInput(input);
         const inputSplit = formatedInput.split(' ');
         for (let i = 0; i < inputSplit.length; i += 2) {
+            if(inputSplit[i] === "-c") {
+                this.mapBooleanArg(inputSplit[i]);
+                i-=1;
+                continue;
+            }
             this.mapArgToValue(inputSplit[i], inputSplit[i+1]);
         }
     }
@@ -42,6 +48,12 @@ export class Cli {
         } else {
             this.argsParsed.set(arg, [value]);
         }
+    }
+
+    private mapBooleanArg(arg: string) {
+        if (!this.isPresentInArgsConfigured(arg)) throw new ArgNotFound(`arg: ${arg} is not found`);
+
+        this.argsParsed.set(arg, []);
     }
 
     private isPresentInArgsConfigured(keyCandidate: string) {

@@ -4,7 +4,7 @@ import { argsConfigured, DIGIT_HEIGHT, DIGIT_WIDTH } from './config';
 import { Parser } from './parser';
 
 const command =
-    '-f "src/fixtures/all-digit.txt" -f "src/fixtures/complete-entries/two-complete-entries.txt"';
+    '-f "src/fixtures/all-digit.txt" -c -f "src/fixtures/complete-entries/two-complete-entries.txt"';
 
 const main = async () => {
     const cli = new Cli(new Map(), argsConfigured);
