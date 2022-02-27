@@ -5,10 +5,12 @@ import { OcrReferenceToNumber } from './number-to-ocr-reference';
 export class Parser {
     private digitWidth: number;
     private digitHeight: number;
+    private lineNumberDigit: number
 
-    constructor(digitWidth: number, digitHeight: number) {
+    constructor(digitWidth: number, digitHeight: number, lineNumberDigit: number) {
         this.digitHeight = digitHeight;
         this.digitWidth = digitWidth;
+        this.lineNumberDigit = lineNumberDigit;
     }
 
     public extractCodes(contentParse: string): string[] {
@@ -19,7 +21,7 @@ export class Parser {
         for (let e = 0; e < numberEntries; e++) {
             const entry = this.extractEntry(fileContent, e);
             let codeFromLine = '';
-            for (let i = 0; i < 9; i += 1) {
+            for (let i = 0; i < this.lineNumberDigit; i += 1) {
                 const res = this.extractDigit(entry, this.digitWidth * i);
                 const number = OcrReferenceToNumber.get(res);
                 if (typeof number === 'undefined') {
