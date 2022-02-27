@@ -41,7 +41,9 @@ describe('test cli parse', () => {
         try {
             cli.parse('-pozerm "jean.txt"');
             expect.fail('test should fail, argument not known');
-        } catch (e) {}
+        } catch (e) {
+            // do nothing
+        }
     });
 
     it('when string contain a boolean arg', () => {

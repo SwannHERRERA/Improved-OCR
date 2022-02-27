@@ -12,7 +12,7 @@ describe('sanity check for reading file', () => {
             await parse('file-doesnt-exist.txt');
             expect.fail('file does not exist');
         } catch (error) {
-            console.log(error);
+            // do nothing
         }
     });
     it('file exist', async () => {
