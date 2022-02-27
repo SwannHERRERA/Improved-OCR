@@ -68,8 +68,8 @@ export class ClassifyGroup implements Classify {
                     return;
                 }
             }
-            const Writer = new WriterInFile('a', this.outputDirectory + this.authorisedPath);
-            await Writer.write([line]);
+            const writer = new WriterInFile('a', this.outputDirectory + this.authorisedPath);
+            await writer.write([line]);
         }
     }
 }

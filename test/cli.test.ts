@@ -1,15 +1,14 @@
 import { expect, should } from 'chai';
 import { describe, it } from 'mocha';
-import { Cli } from './cli';
-import { argsConfigured } from './config';
+import { CommandParser } from '../src/command-parser';
+import { argsConfigured, argsWithoutValues } from '../src/config';
 
 should();
 
 describe('test cli parse', () => {
-    
-    let cli = new Cli(new Map(), argsConfigured);
+    let cli = new CommandParser(new Map(), argsConfigured, argsWithoutValues);
     beforeEach(() => {
-        cli = new Cli(new Map(), argsConfigured);
+        cli = new CommandParser(new Map(), argsConfigured, argsWithoutValues);
     });
 
     it('test -f is parse as the filename', () => {
@@ -42,13 +41,18 @@ describe('test cli parse', () => {
         try {
             cli.parse('-pozerm "jean.txt"');
             expect.fail('test should fail, argument not known');
-        } catch (e) {}
+        } catch (e) {
+            // do nothing
+        }
     });
 
     it('when string contain a boolean arg', () => {
         cli.parse('-f "jean pomme.txt" -c -f "to lo pomme.txt"');
         cli.getArgsParsed().should.deep.equal(
-            new Map([['-f', ['jean$%&pomme.txt', 'to$%&lo$%&pomme.txt']], ['-c', []]])
+            new Map([
+                ['-f', ['jean$%&pomme.txt', 'to$%&lo$%&pomme.txt']],
+                ['-c', []],
+            ])
         );
     });
 });

@@ -1,30 +1,44 @@
 import { ArgNotFound } from './error/arg-not-found';
 
 export enum CliFunctionnality {
+    // eslint-disable-next-line no-unused-vars
     INPUT_FILE,
+    // eslint-disable-next-line no-unused-vars
     OUTPUT_FILE,
+    // eslint-disable-next-line no-unused-vars
     CONSOLE_OUTPUT,
+    // eslint-disable-next-line no-unused-vars
+    HELPER,
 }
 
-export class Cli {
+export class CommandParser {
     private argsParsed: Map<string, string[]>;
     private argsConfigured: Map<CliFunctionnality, string>;
+    private argsWithoutValues: CliFunctionnality[];
 
-    constructor(argsParsed: Map<string, string[]>, argsConfigured: Map<CliFunctionnality, string>) {
+    constructor(
+        argsParsed: Map<string, string[]>,
+        argsConfigured: Map<CliFunctionnality, string>,
+        argsWithoutValues: CliFunctionnality[]
+    ) {
         this.argsParsed = argsParsed;
         this.argsConfigured = argsConfigured;
+        this.argsWithoutValues = argsWithoutValues;
     }
 
     parse(input: string): void {
         const formatedInput = this.formatInput(input);
         const inputSplit = formatedInput.split(' ');
         for (let i = 0; i < inputSplit.length; i += 2) {
-            if(inputSplit[i] === "-c") {
-                this.mapBooleanArg(inputSplit[i]);
-                i-=1;
-                continue;
+            let argIsBoolean = false;
+            for (const argWithoutValue of this.argsWithoutValues) {
+                if (inputSplit[i] === this.argsConfigured.get(argWithoutValue)) {
+                    this.mapBooleanArg(inputSplit[i]);
+                    i -= 1;
+                    argIsBoolean = true;
+                }
             }
-            this.mapArgToValue(inputSplit[i], inputSplit[i+1]);
+            if (!argIsBoolean) this.mapArgToValue(inputSplit[i], inputSplit[i + 1]);
         }
     }
 
@@ -41,8 +55,7 @@ export class Cli {
     }
 
     private mapArgToValue(arg: string, value: string) {
-        if (!this.isPresentInArgsConfigured(arg))
-            throw new ArgNotFound(`arg: ${arg} is not found`);
+        if (!this.isPresentInArgsConfigured(arg)) throw new ArgNotFound(`arg: ${arg} is not found`);
         if (this.argsParsed.has(arg)) {
             this.argsParsed.get(arg)?.push(value);
         } else {
