@@ -41,7 +41,7 @@ describe('test code to result format in result file', () => {
                 [['123456789', '356619702'], ['123456789', '356619782 ERR'], ['12345?78? ILL']],
                 outputPaths
             );
-            classifier.write(paths);
+            await classifier.write(paths);
             const twoCompleteEntryResult = await parse(
                 'test/fixtures/complete-entries/two-complete-entries.txt.result'
             );
