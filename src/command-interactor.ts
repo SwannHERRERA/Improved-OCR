@@ -25,19 +25,7 @@ export class CommandInteractor {
         );
 
         if (inputFiles) {
-            // TODO
-            // Faire ce traitement de manière groupé
-            // const content = await parse(path);
-            // const codes = this.parser.extractCodes(content);
-            // const output = codes.map((code) => codeToResultFormat(code));
-            const outputs: string[][] = [];
-
-            for (let i = 0; i < inputFiles.length; i++) {
-                const path = inputFiles[i];
-                const content = await parse(path);
-                const codes = this.parser.extractCodes(content);
-                outputs.push(codes.map((code) => codeToResultFormat(code)));
-            }
+            const outputs: string[][] = await this.extractCodeFromFile(inputFiles);
 
             if (isConsoleOutput) {
                 const writer = new WriterInConsole();
@@ -54,5 +42,17 @@ export class CommandInteractor {
 
             // si on match zéro scénaerio on affiche un helper dans la console
         }
+    }
+
+    private async extractCodeFromFile(inputFiles: string[]) {
+        const outputs: string[][] = [];
+
+        for (let i = 0; i < inputFiles.length; i++) {
+            const path = inputFiles[i];
+            const content = await parse(path);
+            const codes = this.parser.extractCodes(content);
+            outputs.push(codes.map((code) => codeToResultFormat(code)));
+        }
+        return outputs;
     }
 }

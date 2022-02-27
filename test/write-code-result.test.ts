@@ -1,7 +1,6 @@
 import { unlink } from 'fs/promises';
 import { computeChecksumValue, validCheckSum } from '../src/checksum';
-import { DIGIT_HEIGHT, DIGIT_WIDTH } from '../src/config';
-import { parse, Parser } from '../src/parser';
+import { parse } from '../src/parser';
 import { ClassifyGroup, ClassifySingle, codeToResultFormat } from '../src/write-code-result';
 
 describe('test code to result format in result file', () => {
@@ -39,7 +38,7 @@ describe('test code to result format in result file', () => {
                 'test/fixtures/entry-with-unreadable.txt.result',
             ];
             const classifier = new ClassifySingle(
-                new Parser(DIGIT_WIDTH, DIGIT_HEIGHT),
+                [['123456789', '356619702'], ['123456789', '356619782 ERR'], ['12345?78? ILL']],
                 outputPaths
             );
             classifier.write(paths);
@@ -75,7 +74,7 @@ describe('test code to result format in result file', () => {
                 // files doesn't exist
             }
             const classifier = new ClassifyGroup(
-                new Parser(DIGIT_WIDTH, DIGIT_HEIGHT),
+                [['123456789', '356619702'], ['123456789', '12345?78? ILL'], ['356619782 ERR']],
                 'test/fixtures/result-'
             );
             await classifier.write(paths);
