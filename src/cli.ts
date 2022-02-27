@@ -9,7 +9,7 @@ export enum CliFunctionnality {
     CONSOLE_OUTPUT,
 }
 
-export class Cli {
+export class CommandParser {
     private argsParsed: Map<string, string[]>;
     private argsConfigured: Map<CliFunctionnality, string>;
 

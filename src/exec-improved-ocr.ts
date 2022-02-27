@@ -1,15 +1,18 @@
 import { argv } from 'process';
-import { Cli } from './cli';
+import { CommandParser } from './cli';
 import { CommandInteractor } from './command-interactor';
-import { argsConfigured, DIGIT_HEIGHT, DIGIT_WIDTH } from './config';
+import { argsConfigured, DIGIT_HEIGHT, DIGIT_WIDTH, FILE_INDEX_IN_COMMAND } from './config';
 import { Parser } from './parser';
 
+function argvToCommand(argv: string[]): string {
+    return argv.splice(FILE_INDEX_IN_COMMAND).join(' ');
+}
 function main(): void {
-    const input = argv.splice(2).join(' ');
-    const cli = new Cli(new Map(), argsConfigured);
+    const command = argvToCommand(argv);
+    const commandParser = new CommandParser(new Map(), argsConfigured);
+    commandParser.parse(command);
     const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT);
-    cli.parse(input);
-    const argument = cli.getArgsParsed();
+    const argument = commandParser.getArgsParsed();
     const commandInteractor = new CommandInteractor(parser, argsConfigured);
     commandInteractor.meshToOutput(argument);
 }

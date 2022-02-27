@@ -1,14 +1,14 @@
 import { expect, should } from 'chai';
 import { describe, it } from 'mocha';
-import { Cli } from '../src/cli';
+import { CommandParser } from '../src/cli';
 import { argsConfigured } from '../src/config';
 
 should();
 
 describe('test cli parse', () => {
-    let cli = new Cli(new Map(), argsConfigured);
+    let cli = new CommandParser(new Map(), argsConfigured);
     beforeEach(() => {
-        cli = new Cli(new Map(), argsConfigured);
+        cli = new CommandParser(new Map(), argsConfigured);
     });
 
     it('test -f is parse as the filename', () => {
