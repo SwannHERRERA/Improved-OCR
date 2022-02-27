@@ -1,4 +1,6 @@
-import { CliFunctionnality } from './cli';
+import { CliFunctionnality } from './command-parser';
+
+export const OUTPUT_DIR = '';
 
 export const DIGIT_WIDTH = 3;
 export const DIGIT_HEIGHT = 4;

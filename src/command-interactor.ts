@@ -1,4 +1,5 @@
-import { CliFunctionnality } from './cli';
+import { CliFunctionnality } from './command-parser';
+import { OUTPUT_DIR } from './config';
 import { parse, Parser } from './parser';
 import { Classify, ClassifyGroup, ClassifySingle, codeToResultFormat } from './write-code-result';
 import { WriterInConsole } from './writer/writer-in-console';
@@ -29,21 +30,24 @@ export class CommandInteractor {
             // const content = await parse(path);
             // const codes = this.parser.extractCodes(content);
             // const output = codes.map((code) => codeToResultFormat(code));
+            const outputs: string[][] = [];
+
+            for (let i = 0; i < inputFiles.length; i++) {
+                const path = inputFiles[i];
+                const content = await parse(path);
+                const codes = this.parser.extractCodes(content);
+                outputs.push(codes.map((code) => codeToResultFormat(code)));
+            }
 
             if (isConsoleOutput) {
-                const Writer = new WriterInConsole();
-                for (const path of inputFiles) {
-                    const content = await parse(path);
-                    const codes = this.parser.extractCodes(content);
-                    const output = codes.map((code) => codeToResultFormat(code));
-                    await Writer.write(output);
-                }
+                const writer = new WriterInConsole();
+                outputs.forEach((output) => writer.write(output));
             } else {
                 let classifier: Classify;
                 if (outputFiles) {
-                    classifier = new ClassifySingle(this.parser, outputFiles);
+                    classifier = new ClassifySingle(outputs, outputFiles);
                 } else {
-                    classifier = new ClassifyGroup(this.parser, '');
+                    classifier = new ClassifyGroup(outputs, OUTPUT_DIR);
                 }
                 classifier.write(inputFiles);
             }

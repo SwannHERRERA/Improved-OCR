@@ -1,6 +1,6 @@
 import { expect, should } from 'chai';
 import { describe, it } from 'mocha';
-import { CommandParser } from '../src/cli';
+import { CommandParser } from '../src/command-parser';
 import { argsConfigured } from '../src/config';
 
 should();

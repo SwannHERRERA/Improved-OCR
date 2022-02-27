@@ -1,5 +1,5 @@
 import { argv } from 'process';
-import { CommandParser } from './cli';
+import { CommandParser } from './command-parser';
 import { CommandInteractor } from './command-interactor';
 import { argsConfigured, DIGIT_HEIGHT, DIGIT_WIDTH, FILE_INDEX_IN_COMMAND } from './config';
 import { Parser } from './parser';

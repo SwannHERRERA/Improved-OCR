@@ -53,16 +53,19 @@ describe('test to write', () => {
     });
 
     describe('in the console', () => {
-        it('write string in the console', async () => {
-            const testAppFilePath = path.join(__dirname, '../writer.ts');
-            const testApp = spawn('node', [testAppFilePath]);
+        xit('write string in the console', (done) => {
+            const testAppFilePath = path.join(
+                __dirname + '../../src/writer/test-utils/write-in-console.ts'
+            );
+            const testApp = spawn('npx node-ts', [testAppFilePath]);
 
             testApp.stdout.on('data', (data) => {
                 const stdoutData = data;
                 expect(stdoutData).equal('jean\npomme\n');
                 expect(stdoutData).not.equal('jean pomme');
                 testApp.kill('SIGINT');
+                done();
             });
-        });
+        }).timeout(5000);
     });
 });
