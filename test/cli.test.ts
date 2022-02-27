@@ -1,12 +1,11 @@
 import { expect, should } from 'chai';
 import { describe, it } from 'mocha';
-import { Cli } from './cli';
-import { argsConfigured } from './config';
+import { Cli } from '../src/cli';
+import { argsConfigured } from '../src/config';
 
 should();
 
 describe('test cli parse', () => {
-    
     let cli = new Cli(new Map(), argsConfigured);
     beforeEach(() => {
         cli = new Cli(new Map(), argsConfigured);
@@ -48,7 +47,10 @@ describe('test cli parse', () => {
     it('when string contain a boolean arg', () => {
         cli.parse('-f "jean pomme.txt" -c -f "to lo pomme.txt"');
         cli.getArgsParsed().should.deep.equal(
-            new Map([['-f', ['jean$%&pomme.txt', 'to$%&lo$%&pomme.txt']], ['-c', []]])
+            new Map([
+                ['-f', ['jean$%&pomme.txt', 'to$%&lo$%&pomme.txt']],
+                ['-c', []],
+            ])
         );
     });
 });

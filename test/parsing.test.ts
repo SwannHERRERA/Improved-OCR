@@ -1,8 +1,8 @@
 import { AssertionError, expect, should } from 'chai';
 import { describe, it } from 'mocha';
-import { DIGIT_HEIGHT, DIGIT_WIDTH } from './config';
-import { OcrReferenceToNumber } from './number-to-ocr-reference';
-import { extractDigit, extractEntry, parse, parseCodesFromFile } from './parser';
+import { DIGIT_HEIGHT, DIGIT_WIDTH } from '../src/config';
+import { OcrReferenceToNumber } from '../src/number-to-ocr-reference';
+import { extractDigit, extractEntry, parse, parseCodesFromFile } from '../src/parser';
 
 should();
 

@@ -1,6 +1,6 @@
 import { AssertionError, should } from 'chai';
 import { describe, it } from 'mocha';
-import { OcrReferenceToNumber } from './number-to-ocr-reference';
+import { OcrReferenceToNumber } from '../src/number-to-ocr-reference';
 
 should();
 

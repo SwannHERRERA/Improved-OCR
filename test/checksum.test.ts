@@ -1,6 +1,6 @@
 import { should } from 'chai';
 import { describe, it } from 'mocha';
-import { computeChecksumValue, validCheckSum } from './checksum';
+import { computeChecksumValue, validCheckSum } from '../src/checksum';
 
 should();
 

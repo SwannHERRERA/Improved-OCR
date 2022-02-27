@@ -1,8 +1,8 @@
 import { unlink } from 'fs/promises';
-import { computeChecksumValue, validCheckSum } from './checksum';
-import { DIGIT_HEIGHT, DIGIT_WIDTH } from './config';
-import { parse, Parser } from './parser';
-import { ClassifyGroup, ClassifySingle, codeToResultFormat } from './write-code-result';
+import { computeChecksumValue, validCheckSum } from '../src/checksum';
+import { DIGIT_HEIGHT, DIGIT_WIDTH } from '../src/config';
+import { parse, Parser } from '../src/parser';
+import { ClassifyGroup, ClassifySingle, codeToResultFormat } from '../src/write-code-result';
 
 describe('test code to result format in result file', () => {
     describe('change code to result format', () => {
@@ -38,7 +38,10 @@ describe('test code to result format in result file', () => {
                 'src/fixtures/complete-entries/checksum-error.txt.result',
                 'src/fixtures/entry-with-unreadable.txt.result',
             ];
-            const classifier = new ClassifySingle(new Parser(DIGIT_WIDTH, DIGIT_HEIGHT), outputPaths);
+            const classifier = new ClassifySingle(
+                new Parser(DIGIT_WIDTH, DIGIT_HEIGHT),
+                outputPaths
+            );
             classifier.write(paths);
             const twoCompleteEntryResult = await parse(
                 'src/fixtures/complete-entries/two-complete-entries.txt.result'
