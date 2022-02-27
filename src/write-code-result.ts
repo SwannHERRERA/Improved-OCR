@@ -1,5 +1,5 @@
 import { computeChecksumValue, validCheckSum } from './checksum';
-import { parse, Parser } from './parser';
+import { BadCommand } from './error/output-and-input-didint';
 import { Writer } from './writer/writer';
 import { WriterInFile } from './writer/writer-in-file';
 
@@ -13,31 +13,32 @@ export const codeToResultFormat = (code: string): string => {
 // Unknown contient tous les checksums illisibles
 
 export class ClassifySingle implements Classify {
-    private parser: Parser;
+    private parsedContent: string[][];
     private outputFiles: string[];
 
-    constructor(parser: Parser, outputFiles: string[]) {
-        this.parser = parser;
+    constructor(parsedContent: string[][], outputFiles: string[]) {
+        this.parsedContent = parsedContent;
         this.outputFiles = outputFiles;
+        if (outputFiles.length != parsedContent.length) {
+            throw new BadCommand('the number of inputs and outputs does not match');
+        }
     }
+
     public async write(paths: string[]) {
-        for (let index = 0; index < paths.length; index++) {
-            const content = await parse(paths[index]);
-            const codes = this.parser.extractCodes(content);
-            const output = codes.map((code) => codeToResultFormat(code));
-            const outputFile = this.outputFiles[index];
+        for (let i = 0; i < paths.length; i++) {
+            const outputFile = this.outputFiles[i];
             const writer: Writer = new WriterInFile('w', outputFile);
-            await writer.write(output);
+            await writer.write(this.parsedContent[i]);
         }
     }
 }
 
 export class ClassifyGroup implements Classify {
-    private parser: Parser;
+    private parsedContent: string[][];
     private outputDirectory: string;
 
-    constructor(parser: Parser, outputDirectory: string) {
-        this.parser = parser;
+    constructor(parsedContent: string[][], outputDirectory: string) {
+        this.parsedContent = parsedContent;
         this.outputDirectory = outputDirectory;
     }
 
@@ -48,11 +49,8 @@ export class ClassifyGroup implements Classify {
     private authorisedPath = 'Authorized';
 
     async write(paths: string[]): Promise<void> {
-        for (const path of paths) {
-            const content = await parse(path);
-            const codes = this.parser.extractCodes(content);
-            const output = codes.map((code) => codeToResultFormat(code));
-            await this.appendResult(output);
+        for (let i = 0; i < paths.length; i++) {
+            await this.appendResult(this.parsedContent[i]);
         }
     }
     private async appendResult(lines: string[]) {
