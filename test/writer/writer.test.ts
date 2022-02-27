@@ -7,7 +7,7 @@ import { WriterInFile } from '../../src/writer/writer-in-file';
 
 should();
 
-const fixtureOutputPath = 'src/fixtures/output/';
+const fixtureOutputPath = 'test/fixtures/output/';
 
 describe('test to write', () => {
     describe('in a file', () => {
