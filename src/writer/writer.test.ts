@@ -3,7 +3,6 @@ import { spawn } from 'child_process';
 import { unlink } from 'fs/promises';
 import path from 'path';
 import { parse } from '../parser';
-import { WriterInConsole } from './writer-in-console';
 import { WriterInFile } from './writer-in-file';
 
 should();
@@ -58,7 +57,6 @@ describe('test to write', () => {
 
             testApp.stdout.on('data', (data) => {
                 const stdoutData = data;
-                console.log(stdoutData);
                 expect(stdoutData).equal('jean\npomme\n');
                 expect(stdoutData).not.equal('jean pomme');
                 testApp.kill('SIGINT');

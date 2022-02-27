@@ -25,9 +25,12 @@ export class Command {
         const outputFiles = this.argsParsed.get(
             this.argsConfigured.get(CliFunctionnality.OUTPUT_FILE) ?? ''
         );
+        const isConsoleOutput = this.argsParsed.has(
+            this.argsConfigured.get(CliFunctionnality.CONSOLE_OUTPUT) ?? ''
+        );
 
         if (inputFiles) {
-            if(this.argsConfigured.has(CliFunctionnality.CONSOLE_OUTPUT)) {
+            if (isConsoleOutput) {
                 const Writer = new WriterInConsole();
                 for (const path of inputFiles) {
                     const content = await parse(path);
@@ -35,12 +38,12 @@ export class Command {
                     const output = codes.map((code) => codeToResultFormat(code));
                     await Writer.write(output);
                 }
-            }else {
+            } else {
                 let classifier: Classify;
                 if (outputFiles) {
                     classifier = new ClassifySingle(this.parser, outputFiles);
                 } else {
-                    classifier = new ClassifyGroup(this.parser, '/Users/remy/Desktop/');
+                    classifier = new ClassifyGroup(this.parser, '');
                 }
                 classifier.write(inputFiles);
             }

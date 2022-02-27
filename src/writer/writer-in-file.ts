@@ -1,15 +1,14 @@
 import fs from 'fs/promises';
 import { Writer } from './writer';
 
-
 export class WriterInFile implements Writer {
     private mode: 'a' | 'w';
     private path: string;
     // eslint-disable-next-line no-unused-vars
     private modeToAction: Map<'a' | 'w', (path: string, content: string[]) => Promise<void>> =
         new Map([
-            ['a', this.appendInFile],
-            ['w', this.writeInFile],
+            ['a', this.appendInFile.bind(this)],
+            ['w', this.writeInFile.bind(this)],
         ]);
 
     constructor(mode: 'a' | 'w', path: string) {

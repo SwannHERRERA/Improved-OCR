@@ -4,10 +4,8 @@ import { Command } from './command';
 import { argsConfigured, DIGIT_HEIGHT, DIGIT_WIDTH } from './config';
 import { Parser } from './parser';
 
-
 function main(): void {
-    
-    const input = argv.splice(2).join(' ')
+    const input = argv.splice(2).join(' ');
     const cli = new Cli(new Map(), argsConfigured);
     const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT);
     cli.parse(input);
