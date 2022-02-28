@@ -3,15 +3,17 @@ import { CliFunctionnality } from './command-parser';
 import { OUTPUT_DIR } from './config';
 import { parse, Parser } from './parser';
 import { Classify, ClassifyGroup, ClassifySingle, codeToResultFormat } from './write-code-result';
-import { WriterInConsole } from './writer/writer-in-console';
+import { Writer } from './writer/writer';
 
 export class CommandInteractor {
     private parser: Parser;
     private argsConfigured: Map<CliFunctionnality, string>;
+    private writer: Writer;
 
-    constructor(parser: Parser, argsConfigured: Map<CliFunctionnality, string>) {
+    constructor(parser: Parser, argsConfigured: Map<CliFunctionnality, string>, writer: Writer) {
         this.parser = parser;
         this.argsConfigured = argsConfigured;
+        this.writer = writer;
     }
 
     public async meshToOutput(argsParsed: Map<string, string[]>) {
@@ -29,12 +31,12 @@ export class CommandInteractor {
         );
 
         if (isHelperCommand) {
-            printHelper(new WriterInConsole());
+            printHelper(this.writer);
         } else if (inputFiles) {
             const outputs: string[][] = await this.extractCodeFromFile(inputFiles);
 
             if (isConsoleOutput) {
-                const writer = new WriterInConsole();
+                const writer = this.writer;
                 outputs.forEach((output) => writer.write(output));
             } else {
                 let classifier: Classify;
@@ -52,9 +54,7 @@ export class CommandInteractor {
 
     private async extractCodeFromFile(inputFiles: string[]) {
         const outputs: string[][] = [];
-
-        for (let i = 0; i < inputFiles.length; i++) {
-            const path = inputFiles[i];
+        for (const path of inputFiles) {
             const content = await parse(path);
             const codes = this.parser.extractCodes(content);
             outputs.push(codes.map((code) => codeToResultFormat(code)));
