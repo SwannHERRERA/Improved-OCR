@@ -37,7 +37,6 @@ function main(): void {
     const commandInteractor = new CommandInteractor(
         new OcrExtractor(parser),
         argsConfigured,
-        new WriterInConsole(),
         new CliHelper(writer)
     );
     commandInteractor.meshToOutput(argument);
