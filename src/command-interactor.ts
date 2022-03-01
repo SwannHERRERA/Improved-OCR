@@ -1,4 +1,4 @@
-import { printHelper } from './cli-helper';
+import { Helper } from './cli-helper';
 import { CliFunctionnality } from './command-parser';
 import { OUTPUT_DIR } from './config';
 import { parse, Parser } from './parser';
@@ -9,11 +9,13 @@ export class CommandInteractor {
     private parser: Parser;
     private argsConfigured: Map<CliFunctionnality, string>;
     private writer: Writer;
+    private helper: Helper;
 
-    constructor(parser: Parser, argsConfigured: Map<CliFunctionnality, string>, writer: Writer) {
+    constructor(parser: Parser, argsConfigured: Map<CliFunctionnality, string>, writer: Writer, helper: Helper) {
         this.parser = parser;
         this.argsConfigured = argsConfigured;
         this.writer = writer;
+        this.helper = helper;
     }
 
     public async meshToOutput(argsParsed: Map<string, string[]>) {
@@ -31,7 +33,7 @@ export class CommandInteractor {
         );
 
         if (isHelperCommand) {
-            printHelper(this.writer);
+            this.helper.print();
         } else if (inputFiles) {
             const outputs: string[][] = await this.extractCodeFromFile(inputFiles);
 
@@ -49,7 +51,7 @@ export class CommandInteractor {
             }
 
         }else {
-            printHelper(this.writer);
+            this.helper.print();
         }
     }
 

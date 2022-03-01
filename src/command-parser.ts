@@ -1,3 +1,4 @@
+import { Helper } from './cli-helper';
 import { ArgNotFound } from './error/arg-not-found';
 
 export enum CliFunctionnality {
@@ -15,15 +16,18 @@ export class CommandParser {
     private argsParsed: Map<string, string[]>;
     private argsConfigured: Map<CliFunctionnality, string>;
     private argsWithoutValues: CliFunctionnality[];
+    private helper: Helper;
 
     constructor(
         argsParsed: Map<string, string[]>,
         argsConfigured: Map<CliFunctionnality, string>,
-        argsWithoutValues: CliFunctionnality[]
+        argsWithoutValues: CliFunctionnality[],
+        helper: Helper
     ) {
         this.argsParsed = argsParsed;
         this.argsConfigured = argsConfigured;
         this.argsWithoutValues = argsWithoutValues;
+        this.helper = helper;
     }
 
     parse(input: string): void {
@@ -55,7 +59,10 @@ export class CommandParser {
     }
 
     private mapArgToValue(arg: string, value: string) {
-        if (!this.isPresentInArgsConfigured(arg)) throw new ArgNotFound(`arg: ${arg} is not found`);
+        if (!this.isPresentInArgsConfigured(arg)) {
+            this.helper.print();
+            throw new ArgNotFound(`arg: ${arg} is not found`);
+        }
         if (this.argsParsed.has(arg)) {
             this.argsParsed.get(arg)?.push(value);
         } else {
@@ -64,8 +71,10 @@ export class CommandParser {
     }
 
     private mapBooleanArg(arg: string) {
-        if (!this.isPresentInArgsConfigured(arg)) throw new ArgNotFound(`arg: ${arg} is not found`);
-
+        if (!this.isPresentInArgsConfigured(arg)) {
+            this.helper.print();
+            throw new ArgNotFound(`arg: ${arg} is not found`);
+        }
         this.argsParsed.set(arg, []);
     }
 
