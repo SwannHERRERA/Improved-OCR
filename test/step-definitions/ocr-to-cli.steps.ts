@@ -29,13 +29,32 @@ export class OcrToCli {
 
     private expectedArgs = new Map([
         [
-            '-f',
-            [
-                'test/fixtures/all-digit.txt',
-                'test/fixtures/complete-entries/two-complete-entries.txt',
-            ],
+            'command and files without errors',
+            new Map([
+                [
+                    '-f',
+                    [
+                        'test/fixtures/all-digit.txt',
+                        'test/fixtures/complete-entries/two-complete-entries.txt',
+                    ],
+                ],
+                ['-c', []],
+            ]),
         ],
-        ['-c', []],
+        [
+            'errored',
+            new Map([
+                ['-f', ['test/fixtures/complete-entries/checksum-error.txt']],
+                ['-c', []],
+            ]),
+        ],
+        [
+            'illisible',
+            new Map([
+                ['-f', ['test/fixtures/entry-with-unreadable.txt']],
+                ['-c', []],
+            ]),
+        ],
     ]);
     @given(/this command (.*)/)
     public givenTheFollowingCommand(command: string) {
@@ -64,10 +83,10 @@ export class OcrToCli {
         );
     }
 
-    @then('the argument should be as expected')
-    public thenTheArgumentShouldBe() {
+    @then(/the argument should be (.*)/)
+    public thenTheArgumentShouldBe(command: string) {
         this.argument = this.commandParser.getArgsParsed();
-        this.argument.should.deep.equal(this.expectedArgs);
+        this.argument.should.deep.equal(this.expectedArgs.get(command));
     }
 
     @then('the console output should be')
