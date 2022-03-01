@@ -1,5 +1,4 @@
 import fs from 'fs/promises';
-import { DIGIT_HEIGHT, DIGIT_WIDTH } from './config';
 import { OcrReferenceToNumber } from './number-to-ocr-reference';
 
 export class Parser {
