@@ -1,10 +1,19 @@
 import { should } from 'chai';
 import { binding, given, then, when } from 'cucumber-tsflow';
+import { CliHelper } from '../../src/cli-helper';
 import { CommandInteractor } from '../../src/command-interactor';
 import { CommandParser } from '../../src/command-parser';
-import { argsConfigured, argsWithoutValues, DIGIT_HEIGHT, DIGIT_WIDTH } from '../../src/config';
+import {
+    argsConfigured,
+    argsWithoutValues,
+    DIGIT_HEIGHT,
+    DIGIT_WIDTH,
+    LINE_NUMBER_DIGIT,
+} from '../../src/config';
+import { OcrExtractor } from '../../src/ocr-extractor';
 import { Parser } from '../../src/parser';
 import { Writer } from '../../src/writer/writer';
+import { WriterInConsole } from '../../src/writer/writer-in-console';
 import { WriterStub } from '../writer/writer-stub.test';
 
 should();
@@ -34,14 +43,23 @@ export class OcrToCli {
 
     @when('i parse the command')
     public whenIParseTheCommand() {
-        this.commandParser = new CommandParser(new Map(), argsConfigured, argsWithoutValues);
+        this.commandParser = new CommandParser(
+            new Map(),
+            argsConfigured,
+            argsWithoutValues,
+            new CliHelper(new WriterInConsole())
+        );
         this.commandParser.parse(this.command);
     }
 
     @when('i create command interactor')
     public whenICreateCommandInteractor() {
-        const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT);
-        this.commandInteractor = new CommandInteractor(parser, argsConfigured, this.writer);
+        const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
+        this.commandInteractor = new CommandInteractor(
+            new OcrExtractor(parser),
+            argsConfigured,
+            new CliHelper(new WriterInConsole())
+        );
     }
 
     @then('the argument should be as expected')

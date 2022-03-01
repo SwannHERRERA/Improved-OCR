@@ -12,7 +12,7 @@ export const codeToResultFormat = (code: string): string => {
 // Errored contient tous les checksums invalides
 // Unknown contient tous les checksums illisibles
 
-export class ClassifySingle implements Classify {
+export class SingleClassifyFile implements ClassifyFile {
     private parsedContent: string[][];
     private outputFiles: string[];
 
@@ -33,7 +33,7 @@ export class ClassifySingle implements Classify {
     }
 }
 
-export class ClassifyGroup implements Classify {
+export class GroupClasifyFile implements ClassifyFile {
     private parsedContent: string[][];
     private outputDirectory: string;
 
@@ -42,7 +42,7 @@ export class ClassifyGroup implements Classify {
         this.outputDirectory = outputDirectory;
     }
 
-    private errorSuffix: Map<string, string> = new Map([
+    private errorsSuffix: Map<string, string> = new Map([
         ['ILL', 'Unknown'],
         ['ERR', 'Errored'],
     ]);
@@ -55,12 +55,12 @@ export class ClassifyGroup implements Classify {
     }
     private async appendResult(lines: string[]) {
         for (const line of lines) {
-            const keys = Array.from(this.errorSuffix.keys());
-            for (const key of keys) {
-                if (line.includes(key)) {
+            const errorsSuffix = Array.from(this.errorsSuffix.keys());
+            for (const errorSuffix of errorsSuffix) {
+                if (line.includes(errorSuffix)) {
                     const Writer = new WriterInFile(
                         'a',
-                        this.outputDirectory + this.errorSuffix.get(key)
+                        this.outputDirectory + this.errorsSuffix.get(errorSuffix)
                     );
                     await Writer.write([line]);
                     return;
@@ -72,7 +72,7 @@ export class ClassifyGroup implements Classify {
     }
 }
 
-export interface Classify {
+export interface ClassifyFile {
     // eslint-disable-next-line no-unused-vars
     write(paths: string[]): void;
 }

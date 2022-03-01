@@ -1,20 +1,23 @@
+import { SimpleClassifyConsole } from './classify-console';
 import { Helper } from './cli-helper';
 import { CliFunctionnality } from './command-parser';
 import { OUTPUT_DIR } from './config';
-import { parse, Parser } from './parser';
-import { Classify, ClassifyGroup, ClassifySingle, codeToResultFormat } from './write-code-result';
-import { Writer } from './writer/writer';
+import { OcrExtractor } from './ocr-extractor';
+import { parse } from './parser';
+import { ClassifyFile, GroupClasifyFile, SingleClassifyFile } from './write-code-result';
 
 export class CommandInteractor {
-    private parser: Parser;
+    private ocrExtractor: OcrExtractor;
     private argsConfigured: Map<CliFunctionnality, string>;
-    private writer: Writer;
     private helper: Helper;
 
-    constructor(parser: Parser, argsConfigured: Map<CliFunctionnality, string>, writer: Writer, helper: Helper) {
-        this.parser = parser;
+    constructor(
+        ocrExtractor: OcrExtractor,
+        argsConfigured: Map<CliFunctionnality, string>,
+        helper: Helper
+    ) {
+        this.ocrExtractor = ocrExtractor;
         this.argsConfigured = argsConfigured;
-        this.writer = writer;
         this.helper = helper;
     }
 
@@ -35,33 +38,24 @@ export class CommandInteractor {
         if (isHelperCommand) {
             this.helper.print();
         } else if (inputFiles) {
-            const outputs: string[][] = await this.extractCodeFromFile(inputFiles);
+            const outputs: string[][] = await this.ocrExtractor.extract(
+                await Promise.all(inputFiles.map(async (inputFile) => await parse(inputFile)))
+            );
 
             if (isConsoleOutput) {
-                const writer = this.writer;
-                outputs.forEach((output) => writer.write(output));
+                const classifierConsole = new SimpleClassifyConsole();
+                classifierConsole.write(outputs);
             } else {
-                let classifier: Classify;
+                let classifier: ClassifyFile;
                 if (outputFiles) {
-                    classifier = new ClassifySingle(outputs, outputFiles);
+                    classifier = new SingleClassifyFile(outputs, outputFiles);
                 } else {
-                    classifier = new ClassifyGroup(outputs, OUTPUT_DIR);
+                    classifier = new GroupClasifyFile(outputs, OUTPUT_DIR);
                 }
                 classifier.write(inputFiles);
             }
-
-        }else {
+        } else {
             this.helper.print();
         }
-    }
-
-    private async extractCodeFromFile(inputFiles: string[]) {
-        const outputs: string[][] = [];
-        for (const path of inputFiles) {
-            const content = await parse(path);
-            const codes = this.parser.extractCodes(content);
-            outputs.push(codes.map((code) => codeToResultFormat(code)));
-        }
-        return outputs;
     }
 }

@@ -1,14 +1,26 @@
 import { expect, should } from 'chai';
 import { describe, it } from 'mocha';
+import { CliHelper } from '../src/cli-helper';
 import { CommandParser } from '../src/command-parser';
 import { argsConfigured, argsWithoutValues } from '../src/config';
+import { WriterInConsole } from '../src/writer/writer-in-console';
 
 should();
 
 describe('test cli parse', () => {
-    let cli = new CommandParser(new Map(), argsConfigured, argsWithoutValues);
+    let cli = new CommandParser(
+        new Map(),
+        argsConfigured,
+        argsWithoutValues,
+        new CliHelper(new WriterInConsole())
+    );
     beforeEach(() => {
-        cli = new CommandParser(new Map(), argsConfigured, argsWithoutValues);
+        cli = new CommandParser(
+            new Map(),
+            argsConfigured,
+            argsWithoutValues,
+            new CliHelper(new WriterInConsole())
+        );
     });
 
     it('test -f is parse as the filename', () => {
