@@ -12,7 +12,7 @@ export const codeToResultFormat = (code: string): string => {
 // Errored contient tous les checksums invalides
 // Unknown contient tous les checksums illisibles
 
-export class SingleClassifyInFile implements ClassifyInFile {
+export class SingleClassifyFile implements ClassifyFile {
     private parsedContent: string[][];
     private outputFiles: string[];
 
@@ -33,7 +33,7 @@ export class SingleClassifyInFile implements ClassifyInFile {
     }
 }
 
-export class GroupClasifyInFile implements ClassifyInFile {
+export class GroupClasifyFile implements ClassifyFile {
     private parsedContent: string[][];
     private outputDirectory: string;
 
@@ -72,7 +72,7 @@ export class GroupClasifyInFile implements ClassifyInFile {
     }
 }
 
-export interface ClassifyInFile {
+export interface ClassifyFile {
     // eslint-disable-next-line no-unused-vars
     write(paths: string[]): void;
 }

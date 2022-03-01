@@ -1,7 +1,7 @@
 import { unlink } from 'fs/promises';
 import { computeChecksumValue, validCheckSum } from '../src/checksum';
 import { parse } from '../src/parser';
-import { GroupClasifyInFile, SingleClassifyInFile, codeToResultFormat } from '../src/write-code-result';
+import { GroupClasifyFile, SingleClassifyFile, codeToResultFormat } from '../src/write-code-result';
 
 describe('test code to result format in result file', () => {
     describe('change code to result format', () => {
@@ -37,7 +37,7 @@ describe('test code to result format in result file', () => {
                 'test/fixtures/complete-entries/checksum-error.txt.result',
                 'test/fixtures/entry-with-unreadable.txt.result',
             ];
-            const classifier = new SingleClassifyInFile(
+            const classifier = new SingleClassifyFile(
                 [['123456789', '356619702'], ['123456789', '356619782 ERR'], ['12345?78? ILL']],
                 outputPaths
             );
@@ -73,7 +73,7 @@ describe('test code to result format in result file', () => {
             } catch (error) {
                 // files doesn't exist
             }
-            const classifier = new GroupClasifyInFile(
+            const classifier = new GroupClasifyFile(
                 [['123456789', '356619702'], ['123456789', '12345?78? ILL'], ['356619782 ERR']],
                 'test/fixtures/result-'
             );

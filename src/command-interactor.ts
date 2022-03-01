@@ -1,26 +1,23 @@
+import { SimpleClassifyConsole } from './classify-console';
 import { Helper } from './cli-helper';
 import { CliFunctionnality } from './command-parser';
 import { OUTPUT_DIR } from './config';
 import { OcrExtractor } from './ocr-extractor';
 import { parse } from './parser';
-import { ClassifyInFile, GroupClasifyInFile, SingleClassifyInFile } from './write-code-result';
-import { Writer } from './writer/writer';
+import { ClassifyFile, GroupClasifyFile, SingleClassifyFile } from './write-code-result';
 
 export class CommandInteractor {
     private ocrExtractor: OcrExtractor;
     private argsConfigured: Map<CliFunctionnality, string>;
-    private writer: Writer;
     private helper: Helper;
 
     constructor(
         ocrExtractor: OcrExtractor,
         argsConfigured: Map<CliFunctionnality, string>,
-        writer: Writer,
         helper: Helper
     ) {
         this.ocrExtractor = ocrExtractor;
         this.argsConfigured = argsConfigured;
-        this.writer = writer;
         this.helper = helper;
     }
 
@@ -46,14 +43,14 @@ export class CommandInteractor {
             );
 
             if (isConsoleOutput) {
-                const writer = this.writer;
-                outputs.forEach((output) => writer.write(output));
+                const classifierConsole = new SimpleClassifyConsole();
+                classifierConsole.write(outputs);
             } else {
-                let classifier: ClassifyInFile;
+                let classifier: ClassifyFile;
                 if (outputFiles) {
-                    classifier = new SingleClassifyInFile(outputs, outputFiles);
+                    classifier = new SingleClassifyFile(outputs, outputFiles);
                 } else {
-                    classifier = new GroupClasifyInFile(outputs, OUTPUT_DIR);
+                    classifier = new GroupClasifyFile(outputs, OUTPUT_DIR);
                 }
                 classifier.write(inputFiles);
             }

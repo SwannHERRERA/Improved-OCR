@@ -58,7 +58,6 @@ export class OcrToCli {
         this.commandInteractor = new CommandInteractor(
             new OcrExtractor(parser),
             argsConfigured,
-            this.writer,
             new CliHelper(new WriterInConsole())
         );
     }
