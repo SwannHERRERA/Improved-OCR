@@ -1,8 +1,7 @@
-import { AssertionError, expect, should } from 'chai';
+import {  expect, should } from 'chai';
 import { describe, it } from 'mocha';
 import { DIGIT_HEIGHT, DIGIT_WIDTH, LINE_NUMBER_DIGIT } from '../src/config';
-import { numberToOcrReference, OcrReferenceToNumber } from '../src/number-to-ocr-reference';
-import { extractDigit, extractEntry, parse, parseCodesFromFile, Parser } from '../src/parser';
+import { parse, Parser } from '../src/parser';
 
 should();
 
@@ -64,7 +63,7 @@ describe('test parsing individual number from files', () => {
             str[0].should.be.equal('12');
         });
         it('parse one compelte entry', async () => {
-            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 9);
+            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
             const fileContent = await parse('test/fixtures/all-digit.txt');
             const str = parser.extractCodes(fileContent);
 
@@ -72,7 +71,7 @@ describe('test parsing individual number from files', () => {
         });
 
         it('parse one compelte entry with some unreadable number ', async () => {
-            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 9);
+            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
             const fileContent = await parse('test/fixtures/entry-with-unreadable.txt');
             const str = parser.extractCodes(fileContent);
             str[0].should.be.equal('12345?78?');
@@ -82,7 +81,7 @@ describe('test parsing individual number from files', () => {
     describe('parsing complete multiple entries', () => {
         it('parse 2 complete entries in one file', async () => {
             const resultCompleteEntries = ['123456789', '356619702'];
-            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 9);
+            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
 
             const fileContent = await parse('test/fixtures/complete-entries/two-complete-entries.txt');
             const str = parser.extractCodes(fileContent);
@@ -99,7 +98,7 @@ describe('test parsing individual number from files', () => {
                 resultCompleteEntries.push('734958260')
                 resultCompleteEntries.push('714128260')
             }
-            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 9);
+            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
             
             const fileContent = await parse('test/fixtures/complete-entries/one-hundred-entries.txt');
             const str = parser.extractCodes(fileContent);
