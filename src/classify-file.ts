@@ -8,9 +8,24 @@ export const codeToResultFormat = (code: string): string => {
     return validCheckSum(computeChecksumValue(code)) ? code : code + ' ERR';
 };
 
-// Authorized contient tous les checksums valides
-// Errored contient tous les checksums invalides
-// Unknown contient tous les checksums illisibles
+export class CodeToResult {
+    private illegalValidation: boolean;
+    private errorValidation: boolean;
+    constructor(illegalValidation: boolean, errorValidation: boolean) {
+        this.illegalValidation = illegalValidation;
+        this.errorValidation = errorValidation;
+    }
+
+    format(code: string) {
+        if (this.illegalValidation === true) return code + 'ILL';
+        return this.errorValidation === true ? code : code + ' ERR';
+    }
+}
+const code = '123456789';
+const codeToResult = new CodeToResult(
+    code.includes('?'),
+    validCheckSum(computeChecksumValue(code))
+);
 
 export class SingleClassifyFile implements ClassifyFile {
     private parsedContent: string[][];

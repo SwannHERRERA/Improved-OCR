@@ -1,7 +1,7 @@
 import { unlink } from 'fs/promises';
 import { computeChecksumValue, validCheckSum } from '../src/checksum';
 import { parse } from '../src/parser';
-import { GroupClasifyFile, SingleClassifyFile, codeToResultFormat } from '../src/write-code-result';
+import { GroupClasifyFile, SingleClassifyFile, codeToResultFormat } from '../src/classify-file';
 
 describe('test code to result format in result file', () => {
     describe('change code to result format', () => {

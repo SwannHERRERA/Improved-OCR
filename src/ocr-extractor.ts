@@ -1,5 +1,5 @@
 import { Parser } from "./parser";
-import { codeToResultFormat } from "./write-code-result";
+import { codeToResultFormat } from "./classify-file";
 
 export class OcrExtractor {
     private parser: Parser;

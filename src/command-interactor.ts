@@ -4,7 +4,7 @@ import { CliFunctionnality } from './command-parser';
 import { OUTPUT_DIR } from './config';
 import { OcrExtractor } from './ocr-extractor';
 import { parse } from './parser';
-import { ClassifyFile, GroupClasifyFile, SingleClassifyFile } from './write-code-result';
+import { ClassifyFile, GroupClasifyFile, SingleClassifyFile } from './classify-file';
 
 export class CommandInteractor {
     private ocrExtractor: OcrExtractor;
