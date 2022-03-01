@@ -1,8 +1,8 @@
 import { AssertionError, expect, should } from 'chai';
 import { describe, it } from 'mocha';
-import { DIGIT_HEIGHT, DIGIT_WIDTH } from '../src/config';
-import { OcrReferenceToNumber } from '../src/number-to-ocr-reference';
-import { extractDigit, extractEntry, parse, parseCodesFromFile } from '../src/parser';
+import { DIGIT_HEIGHT, DIGIT_WIDTH, LINE_NUMBER_DIGIT } from '../src/config';
+import { numberToOcrReference, OcrReferenceToNumber } from '../src/number-to-ocr-reference';
+import { extractDigit, extractEntry, parse, parseCodesFromFile, Parser } from '../src/parser';
 
 should();
 
@@ -28,15 +28,13 @@ describe('test parsing individual number from files', () => {
     // const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT);
     const baseDigitPath = 'test/fixtures/simple-digits';
     describe('individual number in file', () => {
+        const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 1);
         it('file one should be equal to 1', async () => {
-            const fileContent = (await parse(`${baseDigitPath}/one.txt`)).split('\n');
-            const str = extractDigit(fileContent, 0);
-            const one = OcrReferenceToNumber.get(str);
-            if (typeof one === 'undefined') {
-                throw new AssertionError('one in undefined');
-            }
-            one.should.be.equal(1);
+            const fileContent = await parse(`${baseDigitPath}/one.txt`);
+            const str = parser.extractCodes(fileContent);
+            str[0].should.be.equal('1');
         });
+
         it('group', async () => {
             const filenames = [
                 `${baseDigitPath}/zero.txt`,
@@ -51,86 +49,63 @@ describe('test parsing individual number from files', () => {
                 `${baseDigitPath}/nine.txt`,
             ];
             filenames.forEach(async (filename, index) => {
-                const fileContent = (await parse(filename)).split('\n');
-                const str = extractDigit(fileContent, 0);
-                const number = OcrReferenceToNumber.get(str);
-                if (typeof number === 'undefined') {
-                    throw new AssertionError('number in undefined');
-                }
-                number.should.be.equal(index + 1);
+                const fileContent = await parse(filename);
+                const str = parser.extractCodes(fileContent);
+                str[index + 1].should.be.equal((index + 1).toString());
             });
         });
     });
     describe('Multiple numbers in one file and one entry', () => {
         it('parse one and two in the same file', async () => {
-            const fileContent = (await parse('test/fixtures/one-two.txt')).split('\n');
-            const strOne = extractDigit(fileContent, 0);
-            const one = OcrReferenceToNumber.get(strOne);
-            if (typeof one === 'undefined') {
-                throw new AssertionError('one in undefined');
-            }
-            one.should.be.equal(1);
-            const strTwo = extractDigit(fileContent, DIGIT_WIDTH);
-            const two = OcrReferenceToNumber.get(strTwo);
-            if (typeof two === 'undefined') {
-                throw new AssertionError('two in undefined');
-            }
-            two.should.be.equal(2);
+            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 2);
+            const fileContent = (await parse('test/fixtures/one-two.txt'));
+            const str = parser.extractCodes(fileContent);
+
+            str[0].should.be.equal('12');
         });
         it('parse one compelte entry', async () => {
-            const fileContent = (await parse('test/fixtures/all-digit.txt')).split('\n');
-            for (let i = 1; i < 9; i += 1) {
-                const str = extractDigit(fileContent, DIGIT_WIDTH * (i - 1));
-                const number = OcrReferenceToNumber.get(str);
-                if (typeof number === 'undefined') {
-                    throw new AssertionError('one in undefined');
-                }
-                number.should.be.equal(i);
-            }
+            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 9);
+            const fileContent = await parse('test/fixtures/all-digit.txt');
+            const str = parser.extractCodes(fileContent);
+
+            str[0].should.be.equal('123456789');
         });
 
         it('parse one compelte entry with some unreadable number ', async () => {
-            const resultCompleteEntries = ['12345?78?'];
-
-            const res = await parseCodesFromFile('test/fixtures/entry-with-unreadable.txt');
-            res.should.deep.equal(resultCompleteEntries);
+            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 9);
+            const fileContent = await parse('test/fixtures/entry-with-unreadable.txt');
+            const str = parser.extractCodes(fileContent);
+            str[0].should.be.equal('12345?78?');
         });
     });
 
     describe('parsing complete multiple entries', () => {
-        it('parse 2 complete entries and get entry by entry', async () => {
-            const entryOne = [
-                `    _  _     _  _  _  _  _ `,
-                `  | _| _||_||_ |_   ||_||_|`,
-                `  ||_  _|  | _||_|  ||_| _|`,
-                `                           `,
-            ];
-
-            const entryTwo = [
-                ` _  _  _  _     _  _  _  _ `,
-                ` _||_ |_ |_   ||_|  || | _|`,
-                ` _| _||_||_|  | _|  ||_||_ `,
-                `                           `,
-            ];
-
-            const fileContent = (
-                await parse('test/fixtures/complete-entries/two-complete-entries.txt')
-            ).split('\n');
-            const numberEntries = fileContent.length / DIGIT_HEIGHT;
-            const entries: string[][] = [];
-            for (let e = 0; e < numberEntries; e++) {
-                entries.push(extractEntry(fileContent, e));
-            }
-            entries[0].should.deep.equal(entryOne);
-            entries[1].should.deep.equal(entryTwo);
-        });
         it('parse 2 complete entries in one file', async () => {
             const resultCompleteEntries = ['123456789', '356619702'];
+            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 9);
 
-            const res = await parseCodesFromFile(
-                'test/fixtures/complete-entries/two-complete-entries.txt'
-            );
-            res.should.deep.equal(resultCompleteEntries);
+            const fileContent = await parse('test/fixtures/complete-entries/two-complete-entries.txt');
+            const str = parser.extractCodes(fileContent);
+            
+            str.should.deep.equal(resultCompleteEntries);
+        });
+
+        it('parse 100 entries in one file', async () => {
+            const resultCompleteEntries: string[] = [];
+            for(let i =0; i< 20; i++) {
+                resultCompleteEntries.push('123456789')
+                resultCompleteEntries.push('163358789')
+                resultCompleteEntries.push('733358280')
+                resultCompleteEntries.push('734958260')
+                resultCompleteEntries.push('714128260')
+            }
+            const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 9);
+            
+            const fileContent = await parse('test/fixtures/complete-entries/one-hundred-entries.txt');
+            const str = parser.extractCodes(fileContent);
+            
+            str.should.deep.equal(resultCompleteEntries);
+            str.length.should.equal(100)
         });
     });
 });

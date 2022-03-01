@@ -4,6 +4,7 @@ export const OUTPUT_DIR = '';
 
 export const DIGIT_WIDTH = 3;
 export const DIGIT_HEIGHT = 4;
+export const LINE_NUMBER_DIGIT = 9;
 export const FILE_INDEX_IN_COMMAND = 2;
 export const argsConfigured = new Map<CliFunctionnality, string>([
     [CliFunctionnality.INPUT_FILE, '-f'],

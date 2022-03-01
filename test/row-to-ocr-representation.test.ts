@@ -1,7 +1,7 @@
 import { rowToOcrRepresentation } from '../src/row-to-ocr-representation';
 
 describe('test code-to-ocr-representation', () => {
-    xit('code 123456789 should return the same in ocr reprsentation', () => {
+    it('code 123456789 should return the same in ocr reprsentation', () => {
         const ocrRespresentation = `    _  _     _  _  _  _  _ 
   | _| _||_||_ |_   ||_||_|
   ||_  _|  | _||_|  ||_| _|
