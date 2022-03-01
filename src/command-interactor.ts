@@ -3,7 +3,7 @@ import { CliFunctionnality } from './command-parser';
 import { OUTPUT_DIR } from './config';
 import { OcrExtractor } from './ocr-extractor';
 import { parse } from './parser';
-import { Classify, ClassifyGroup, ClassifySingle, codeToResultFormat } from './write-code-result';
+import { ClassifyInFile, GroupClasifyInFile, SingleClassifyInFile } from './write-code-result';
 import { Writer } from './writer/writer';
 
 export class CommandInteractor {
@@ -49,11 +49,11 @@ export class CommandInteractor {
                 const writer = this.writer;
                 outputs.forEach((output) => writer.write(output));
             } else {
-                let classifier: Classify;
+                let classifier: ClassifyInFile;
                 if (outputFiles) {
-                    classifier = new ClassifySingle(outputs, outputFiles);
+                    classifier = new SingleClassifyInFile(outputs, outputFiles);
                 } else {
-                    classifier = new ClassifyGroup(outputs, OUTPUT_DIR);
+                    classifier = new GroupClasifyInFile(outputs, OUTPUT_DIR);
                 }
                 classifier.write(inputFiles);
             }
