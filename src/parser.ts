@@ -1,4 +1,5 @@
 import fs from 'fs/promises';
+import { NoSuchFileOrDirectory } from './error/no-such-file-or-directory';
 import { OcrReferenceToNumber } from './number-to-ocr-reference';
 
 export class Parser {
@@ -58,8 +59,3 @@ export const parse = async (pathToFile: string): Promise<string> => {
     }
 };
 
-export class NoSuchFileOrDirectory extends Error {
-    constructor(public message: string) {
-        super(message);
-    }
-}
