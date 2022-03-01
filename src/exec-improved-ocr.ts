@@ -17,6 +17,7 @@ import { WriterInConsole } from './writer/writer-in-console';
 import { CliHelper } from './cli-helper';
 import { Writer } from './writer/writer';
 import { OcrExtractor } from './ocr-extractor';
+import { SimpleClassifyConsole } from './classify-console';
 
 function argvToCommand(params: string[]): string {
     return params.splice(FILE_INDEX_IN_COMMAND).join(' ');
@@ -37,8 +38,8 @@ function main(): void {
     const commandInteractor = new CommandInteractor(
         new OcrExtractor(parser),
         argsConfigured,
-        new WriterInConsole(),
-        new CliHelper(writer)
+        new CliHelper(writer),
+        new SimpleClassifyConsole()
     );
     commandInteractor.meshToOutput(argument);
 }

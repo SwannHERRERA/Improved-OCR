@@ -1,4 +1,4 @@
-import { SimpleClassifyConsole } from './classify-console';
+import { ClassifyConsole } from './classify-console';
 import { Helper } from './cli-helper';
 import { CliFunctionnality } from './command-parser';
 import { OUTPUT_DIR } from './config';
@@ -10,15 +10,18 @@ export class CommandInteractor {
     private ocrExtractor: OcrExtractor;
     private argsConfigured: Map<CliFunctionnality, string>;
     private helper: Helper;
+    private consoleClassifier: ClassifyConsole;
 
     constructor(
         ocrExtractor: OcrExtractor,
         argsConfigured: Map<CliFunctionnality, string>,
-        helper: Helper
+        helper: Helper,
+        consoleClassifier: ClassifyConsole
     ) {
         this.ocrExtractor = ocrExtractor;
         this.argsConfigured = argsConfigured;
         this.helper = helper;
+        this.consoleClassifier = consoleClassifier;
     }
 
     public async meshToOutput(argsParsed: Map<string, string[]>) {
@@ -43,8 +46,7 @@ export class CommandInteractor {
             );
 
             if (isConsoleOutput) {
-                const classifierConsole = new SimpleClassifyConsole();
-                classifierConsole.write(outputs);
+                this.consoleClassifier.write(outputs);
             } else {
                 let classifier: ClassifyFile;
                 if (outputFiles) {

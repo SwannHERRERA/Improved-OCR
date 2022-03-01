@@ -9,6 +9,5 @@ Feature: Parse OCR to CLI
     Then the argument should be as expected
     When i create command interactor
     Then the console output should be
-    |  |
-    |  |
-    |  |
+    | 123456789\n |
+    | 123456789\n356619702\n |

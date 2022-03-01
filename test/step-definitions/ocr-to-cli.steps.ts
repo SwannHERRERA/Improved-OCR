@@ -1,5 +1,7 @@
 import { should } from 'chai';
+import { DataTable } from '@cucumber/cucumber';
 import { binding, given, then, when } from 'cucumber-tsflow';
+import { ClassifyConsole } from '../../src/classify-console';
 import { CliHelper } from '../../src/cli-helper';
 import { CommandInteractor } from '../../src/command-interactor';
 import { CommandParser } from '../../src/command-parser';
@@ -12,9 +14,8 @@ import {
 } from '../../src/config';
 import { OcrExtractor } from '../../src/ocr-extractor';
 import { Parser } from '../../src/parser';
-import { Writer } from '../../src/writer/writer';
 import { WriterInConsole } from '../../src/writer/writer-in-console';
-import { WriterStub } from '../writer/writer-stub.test';
+import { MockClassifierConsole } from '../writer/classifier-console-mock.test';
 
 should();
 
@@ -24,7 +25,7 @@ export class OcrToCli {
     private commandParser!: CommandParser;
     private commandInteractor!: CommandInteractor;
     private argument!: Map<string, string[]>;
-    private writer: Writer = new WriterStub();
+    private classifierConsole: ClassifyConsole = new MockClassifierConsole();
 
     private expectedArgs = new Map([
         [
@@ -58,7 +59,8 @@ export class OcrToCli {
         this.commandInteractor = new CommandInteractor(
             new OcrExtractor(parser),
             argsConfigured,
-            new CliHelper(new WriterInConsole())
+            new CliHelper(new WriterInConsole()),
+            this.classifierConsole
         );
     }
 
@@ -69,9 +71,13 @@ export class OcrToCli {
     }
 
     @then('the console output should be')
-    public thenTheConsoleShouldBe(expected: unknown) {
-        this.commandInteractor.meshToOutput(this.argument);
-        const output = (this.writer as WriterStub).called;
-        console.log('output' + output);
+    public async thenTheConsoleShouldBe(expected: DataTable) {
+        await this.commandInteractor.meshToOutput(this.argument);
+        const linesPrint = (this.classifierConsole as MockClassifierConsole).called;
+        const linesExpected = expected.raw();
+        linesExpected.length.should.be.equal(linesPrint.length);
+        for (let i = 0; i < linesPrint.length; i += 1) {
+            linesExpected[i][0].should.be.equal(linesPrint[i]);
+        }
     }
 }
