@@ -48,7 +48,8 @@ export class CommandInteractor {
                 classifier.write(inputFiles);
             }
 
-            // si on match zéro scénaerio on affiche un helper dans la console
+        }else {
+            printHelper(this.writer);
         }
     }
 
