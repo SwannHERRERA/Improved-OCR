@@ -16,6 +16,7 @@ import { OcrExtractor } from '../../src/ocr-extractor';
 import { Parser } from '../../src/parser';
 import { WriterInConsole } from '../../src/writer/writer-in-console';
 import { MockClassifierConsole } from '../writer/classifier-console-mock.test';
+import { CodeToResult } from '../../src/classify-file';
 
 should();
 
@@ -76,7 +77,7 @@ export class OcrToCli {
     public whenICreateCommandInteractor() {
         const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
         this.commandInteractor = new CommandInteractor(
-            new OcrExtractor(parser),
+            new OcrExtractor(parser, new CodeToResult()),
             argsConfigured,
             new CliHelper(new WriterInConsole()),
             this.classifierConsole

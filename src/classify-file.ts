@@ -9,23 +9,26 @@ export const codeToResultFormat = (code: string): string => {
 };
 
 export class CodeToResult {
-    private illegalValidation: boolean;
-    private errorValidation: boolean;
-    constructor(illegalValidation: boolean, errorValidation: boolean) {
-        this.illegalValidation = illegalValidation;
-        this.errorValidation = errorValidation;
-    }
+    private validator = new Map([
+        [(code: string) => !code.includes('?'), ' ILL'],
+        [(code: string) => validCheckSum(computeChecksumValue(code)), ' ERR'],
+    ]);
 
-    format(code: string) {
-        if (this.illegalValidation === true) return code + 'ILL';
-        return this.errorValidation === true ? code : code + ' ERR';
+    format(code: string): string {
+        let result: null | string = null;
+        this.validator.forEach((value, isValid) => {
+            if (!isValid(code)) {
+                if (result === null) {
+                    result = code + value;
+                }
+            }
+        });
+        if (result != null) {
+            return result;
+        }
+        return code;
     }
 }
-const code = '123456789';
-const codeToResult = new CodeToResult(
-    code.includes('?'),
-    validCheckSum(computeChecksumValue(code))
-);
 
 export class SingleClassifyFile implements ClassifyFile {
     private parsedContent: string[][];

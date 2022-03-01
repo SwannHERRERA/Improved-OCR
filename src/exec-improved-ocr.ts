@@ -18,6 +18,7 @@ import { CliHelper } from './cli-helper';
 import { Writer } from './writer/writer';
 import { OcrExtractor } from './ocr-extractor';
 import { SimpleClassifyConsole } from './classify-console';
+import { CodeToResult } from './classify-file';
 
 function argvToCommand(params: string[]): string {
     return params.splice(FILE_INDEX_IN_COMMAND).join(' ');
@@ -36,7 +37,7 @@ function main(): void {
     const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
     const argument = commandParser.getArgsParsed();
     const commandInteractor = new CommandInteractor(
-        new OcrExtractor(parser),
+        new OcrExtractor(parser, new CodeToResult()),
         argsConfigured,
         new CliHelper(writer),
         new SimpleClassifyConsole()
