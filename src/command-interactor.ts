@@ -1,6 +1,6 @@
 import { ClassifyConsole } from './classifier/classify-console';
 import { Helper } from './helpers/cli-helper';
-import { CliFunctionnality } from './helpers/command-parser';
+import { CliFunctionnality } from './parsing/command-parser';
 import { OUTPUT_DIR } from './config';
 import { OcrExtractor } from './ocr-extractor';
 import { parse } from './parsing/parser';

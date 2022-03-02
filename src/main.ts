@@ -1,7 +1,7 @@
 #!/usr/bin/env npx ts-node
 
 import { argv } from 'process';
-import { CommandParser } from './helpers/command-parser';
+import { CommandParser } from './parsing/command-parser';
 import { CommandInteractor } from './command-interactor';
 
 import {

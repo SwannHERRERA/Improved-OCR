@@ -4,7 +4,7 @@ import { binding, given, then, when } from 'cucumber-tsflow';
 import { ClassifyConsole } from '../../src/classifier/classify-console';
 import { CliHelper } from '../../src/helpers/cli-helper';
 import { CommandInteractor } from '../../src/command-interactor';
-import { CommandParser } from '../../src/helpers/command-parser';
+import { CommandParser } from '../../src/parsing/command-parser';
 import {
     argsConfigured,
     argsWithoutValues,
