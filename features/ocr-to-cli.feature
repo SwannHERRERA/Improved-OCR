@@ -28,3 +28,14 @@ Feature: Parse OCR to CLI
     Then the console output should be
     | 12345?78? ILL\n |
 
+    Scenario: Exec command with a lot of args but helper to
+    Given this command -c -f "test/fixtures/entry-with-unreadable.txt" -h
+    When i exec the command
+    Then the console output should be the helper
+
+    Scenario: Exec command with file and ouput with error invalid and valid code
+    Given this command -f "test/fixtures/complete-entries/error-illegal-valid-entries.txt" -o "test/fixtures/output/example.txt"
+    When i exec the command
+    Then the content file "test/fixtures/output/example.txt" should be
+    | 123456789\n356619782 ERR\n35661?782 ILL  |
+

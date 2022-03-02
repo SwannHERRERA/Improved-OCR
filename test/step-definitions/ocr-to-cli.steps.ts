@@ -13,7 +13,7 @@ import {
     LINE_NUMBER_DIGIT,
 } from '../../src/config';
 import { OcrExtractor } from '../../src/ocr-extractor';
-import { Parser } from '../../src/parser';
+import { parse, Parser } from '../../src/parser';
 import { WriterInConsole } from '../../src/writer/writer-in-console';
 import { MockClassifierConsole } from '../writer/classifier-console-mock.test';
 import { CodeToResult } from '../../src/classify-file';
@@ -84,6 +84,25 @@ export class OcrToCli {
         );
     }
 
+    @when('i exec the command')
+    public whenIExecTheCommand() {
+        this.commandParser = new CommandParser(
+            new Map(),
+            argsConfigured,
+            argsWithoutValues,
+            new CliHelper(new WriterInConsole())
+        );
+        this.commandParser.parse(this.command);
+        this.argument = this.commandParser.getArgsParsed();
+        const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
+        this.commandInteractor = new CommandInteractor(
+            new OcrExtractor(parser, new CodeToResult()),
+            argsConfigured,
+            new CliHelper(new WriterInConsole()),
+            this.classifierConsole
+        );
+    }
+
     @then(/the argument should be (.*)/)
     public thenTheArgumentShouldBe(command: string) {
         this.argument = this.commandParser.getArgsParsed();
@@ -99,5 +118,24 @@ export class OcrToCli {
         for (let i = 0; i < linesPrint.length; i += 1) {
             linesExpected[i][0].should.be.equal(linesPrint[i]);
         }
+    }
+
+    @then('the console output should be the helper')
+    public async thenTheConsoleShouldBeTheHelper() {
+        await this.commandInteractor.meshToOutput(this.argument);
+        const linesPrint = (this.classifierConsole as MockClassifierConsole).called;
+        //TODO Je ne sais pas comment vérifier que on a bien vu le helper
+    }
+
+    @then(/the content file (.*) should be/)
+    public async thenTheContentFiletShouldBe(pathFile: string, expected: DataTable) {
+        await this.commandInteractor.meshToOutput(this.argument);
+        pathFile = `${__dirname}/../../${pathFile.replace(/"/g, "")}`
+        
+        const resultFile = await parse(
+            pathFile
+        );
+        const linesExpected = expected.raw();
+        linesExpected[0][0].should.be.equal(resultFile);
     }
 }
