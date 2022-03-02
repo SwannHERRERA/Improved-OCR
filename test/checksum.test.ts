@@ -1,7 +1,7 @@
 import { should } from 'chai';
 import { describe, it } from 'mocha';
 import { computeChecksumValue, validCheckSum } from '../src/checksum';
-import { errorValidator } from '../src/classify-file';
+import { errorValidator } from '../src/validation/validators';
 
 should();
 
@@ -37,14 +37,13 @@ describe('test checksum validation', () => {
         });
     });
 
-
     describe('test to validate error validation', () => {
         it('for the code "123456789" the checksum validation is not valid', () => {
-            errorValidator("123456789").should.be.true;
+            errorValidator('123456789').should.be.true;
         });
 
         it('for the value "356609701" the checksum validation is valid', () => {
-            errorValidator("356609701").should.be.false;
+            errorValidator('356609701').should.be.false;
         });
     });
 });

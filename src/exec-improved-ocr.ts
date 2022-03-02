@@ -18,7 +18,8 @@ import { CliHelper } from './cli-helper';
 import { Writer } from './writer/writer';
 import { OcrExtractor } from './ocr-extractor';
 import { SimpleClassifyConsole } from './classify-console';
-import { CodeToResult } from './classify-file';
+import { errorValidator, illegalValidator } from './validation/validators';
+import { CodeToResult } from './validation/code-to-result';
 
 function argvToCommand(params: string[]): string {
     return params.splice(FILE_INDEX_IN_COMMAND).join(' ');
@@ -37,7 +38,15 @@ function main(): void {
     const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
     const argument = commandParser.getArgsParsed();
     const commandInteractor = new CommandInteractor(
-        new OcrExtractor(parser, new CodeToResult()),
+        new OcrExtractor(
+            parser,
+            new CodeToResult(
+                new Map([
+                    [' ILL', illegalValidator],
+                    [' ERR', errorValidator],
+                ])
+            )
+        ),
         argsConfigured,
         new CliHelper(writer),
         new SimpleClassifyConsole()

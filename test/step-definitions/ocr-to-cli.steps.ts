@@ -16,9 +16,11 @@ import { OcrExtractor } from '../../src/ocr-extractor';
 import { parse, Parser } from '../../src/parser';
 import { WriterInConsole } from '../../src/writer/writer-in-console';
 import { MockClassifierConsole } from '../writer/classifier-console-mock.test';
-import { CodeToResult } from '../../src/classify-file';
+
 import { WriterMock } from '../writer/writer-mock.test';
 import { Writer } from '../../src/writer/writer';
+import { CodeToResult } from '../../src/validation/code-to-result';
+import { errorValidator, illegalValidator } from '../../src/validation/validators';
 
 should();
 
@@ -30,6 +32,12 @@ export class OcrToCli {
     private argument!: Map<string, string[]>;
     private classifierConsole: ClassifyConsole = new MockClassifierConsole();
     private writer: Writer = new WriterMock();
+    private codeToResult: CodeToResult = new CodeToResult(
+        new Map([
+            [' ILL', illegalValidator],
+            [' ERR', errorValidator],
+        ])
+    );
 
     private expectedArgs = new Map([
         [
@@ -80,7 +88,7 @@ export class OcrToCli {
     public whenICreateCommandInteractor() {
         const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
         this.commandInteractor = new CommandInteractor(
-            new OcrExtractor(parser, new CodeToResult()),
+            new OcrExtractor(parser, this.codeToResult),
             argsConfigured,
             new CliHelper(new WriterInConsole()),
             this.classifierConsole
@@ -99,7 +107,7 @@ export class OcrToCli {
         this.argument = this.commandParser.getArgsParsed();
         const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
         this.commandInteractor = new CommandInteractor(
-            new OcrExtractor(parser, new CodeToResult()),
+            new OcrExtractor(parser, this.codeToResult),
             argsConfigured,
             new CliHelper(this.writer),
             this.classifierConsole
