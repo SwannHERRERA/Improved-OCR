@@ -1,10 +1,10 @@
 import { should } from 'chai';
 import { DataTable } from '@cucumber/cucumber';
 import { binding, given, then, when } from 'cucumber-tsflow';
-import { ClassifyConsole } from '../../src/classify-console';
-import { CliHelper } from '../../src/cli-helper';
+import { ClassifyConsole } from '../../src/classifier/classify-console';
+import { CliHelper } from '../../src/helpers/cli-helper';
 import { CommandInteractor } from '../../src/command-interactor';
-import { CommandParser } from '../../src/command-parser';
+import { CommandParser } from '../../src/helpers/command-parser';
 import {
     argsConfigured,
     argsWithoutValues,
@@ -13,7 +13,7 @@ import {
     LINE_NUMBER_DIGIT,
 } from '../../src/config';
 import { OcrExtractor } from '../../src/ocr-extractor';
-import { parse, Parser } from '../../src/parser';
+import { parse, Parser } from '../../src/parsing/parser';
 import { WriterInConsole } from '../../src/writer/writer-in-console';
 import { MockClassifierConsole } from '../writer/classifier-console-mock.test';
 

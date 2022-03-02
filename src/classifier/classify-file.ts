@@ -1,6 +1,6 @@
-import { BadCommand } from './error/output-and-input-didint';
-import { Writer } from './writer/writer';
-import { WriterInFile } from './writer/writer-in-file';
+import { BadCommand } from '../error/output-and-input-didint';
+import { Writer } from '../writer/writer';
+import { WriterInFile } from '../writer/writer-in-file';
 
 export interface ClassifyFile {
     // eslint-disable-next-line no-unused-vars

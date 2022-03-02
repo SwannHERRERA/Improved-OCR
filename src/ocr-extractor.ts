@@ -1,4 +1,4 @@
-import { Parser } from './parser';
+import { Parser } from './parsing/parser';
 import { CodeToResult } from './validation/code-to-result';
 
 export class OcrExtractor {
@@ -11,12 +11,12 @@ export class OcrExtractor {
     }
 
     async extract(content: string[]): Promise<string[][]> {
-        const outputs: string[][] = [];
+        const filesContent: string[][] = [];
 
         for (let i = 0; i < content.length; i++) {
             const codes = this.parser.extractCodes(content[i]);
-            outputs.push(codes.map((code) => this.codeToResult.format(code)));
+            filesContent.push(codes.map((code) => this.codeToResult.format(code)));
         }
-        return outputs;
+        return filesContent;
     }
 }

@@ -1,7 +1,7 @@
-import {  expect, should } from 'chai';
+import { expect, should } from 'chai';
 import { describe, it } from 'mocha';
 import { DIGIT_HEIGHT, DIGIT_WIDTH, LINE_NUMBER_DIGIT } from '../src/config';
-import { parse, Parser } from '../src/parser';
+import { parse, Parser } from '../src/parsing/parser';
 
 should();
 
@@ -57,7 +57,7 @@ describe('test parsing individual number from files', () => {
     describe('Multiple numbers in one file and one entry', () => {
         it('parse one and two in the same file', async () => {
             const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 2);
-            const fileContent = (await parse('test/fixtures/one-two.txt'));
+            const fileContent = await parse('test/fixtures/one-two.txt');
             const str = parser.extractCodes(fileContent);
 
             str[0].should.be.equal('12');
@@ -83,28 +83,32 @@ describe('test parsing individual number from files', () => {
             const resultCompleteEntries = ['123456789', '356619702'];
             const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
 
-            const fileContent = await parse('test/fixtures/complete-entries/two-complete-entries.txt');
+            const fileContent = await parse(
+                'test/fixtures/complete-entries/two-complete-entries.txt'
+            );
             const str = parser.extractCodes(fileContent);
-            
+
             str.should.deep.equal(resultCompleteEntries);
         });
 
         it('parse 100 entries in one file', async () => {
             const resultCompleteEntries: string[] = [];
-            for(let i =0; i< 20; i++) {
-                resultCompleteEntries.push('123456789')
-                resultCompleteEntries.push('163358789')
-                resultCompleteEntries.push('733358280')
-                resultCompleteEntries.push('734958260')
-                resultCompleteEntries.push('714128260')
+            for (let i = 0; i < 20; i++) {
+                resultCompleteEntries.push('123456789');
+                resultCompleteEntries.push('163358789');
+                resultCompleteEntries.push('733358280');
+                resultCompleteEntries.push('734958260');
+                resultCompleteEntries.push('714128260');
             }
             const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
-            
-            const fileContent = await parse('test/fixtures/complete-entries/one-hundred-entries.txt');
+
+            const fileContent = await parse(
+                'test/fixtures/complete-entries/one-hundred-entries.txt'
+            );
             const str = parser.extractCodes(fileContent);
-            
+
             str.should.deep.equal(resultCompleteEntries);
-            str.length.should.equal(100)
+            str.length.should.equal(100);
         });
     });
 });

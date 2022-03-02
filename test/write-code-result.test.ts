@@ -1,7 +1,7 @@
 import { unlink } from 'fs/promises';
 import { computeChecksumValue, validCheckSum } from '../src/checksum';
-import { parse } from '../src/parser';
-import { GroupClasifyFile, SingleClassifyFile } from '../src/classify-file';
+import { parse } from '../src/parsing/parser';
+import { GroupClasifyFile, SingleClassifyFile } from '../src/classifier/classify-file';
 import { CodeToResult } from '../src/validation/code-to-result';
 import { errorValidator, illegalValidator } from '../src/validation/validators';
 

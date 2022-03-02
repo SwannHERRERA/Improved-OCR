@@ -1,4 +1,4 @@
-import { ClassifyConsole } from '../../src/classify-console';
+import { ClassifyConsole } from '../../src/classifier/classify-console';
 
 export class MockClassifierConsole implements ClassifyConsole {
     write(outputs: string[][]): void {

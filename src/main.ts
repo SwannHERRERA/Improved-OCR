@@ -1,7 +1,7 @@
 #!/usr/bin/env npx ts-node
 
 import { argv } from 'process';
-import { CommandParser } from './command-parser';
+import { CommandParser } from './helpers/command-parser';
 import { CommandInteractor } from './command-interactor';
 
 import {
@@ -11,14 +11,14 @@ import {
     DIGIT_WIDTH,
     FILE_INDEX_IN_COMMAND,
     LINE_NUMBER_DIGIT,
+    validators,
 } from './config';
-import { Parser } from './parser';
+import { Parser } from './parsing/parser';
 import { WriterInConsole } from './writer/writer-in-console';
-import { CliHelper } from './cli-helper';
+import { CliHelper } from './helpers/cli-helper';
 import { Writer } from './writer/writer';
 import { OcrExtractor } from './ocr-extractor';
-import { SimpleClassifyConsole } from './classify-console';
-import { errorValidator, illegalValidator } from './validation/validators';
+import { SimpleClassifyConsole } from './classifier/classify-console';
 import { CodeToResult } from './validation/code-to-result';
 
 function argvToCommand(params: string[]): string {
@@ -38,15 +38,7 @@ function main(): void {
     const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
     const argument = commandParser.getArgsParsed();
     const commandInteractor = new CommandInteractor(
-        new OcrExtractor(
-            parser,
-            new CodeToResult(
-                new Map([
-                    [' ILL', illegalValidator],
-                    [' ERR', errorValidator],
-                ])
-            )
-        ),
+        new OcrExtractor(parser, new CodeToResult(validators)),
         argsConfigured,
         new CliHelper(writer),
         new SimpleClassifyConsole()
