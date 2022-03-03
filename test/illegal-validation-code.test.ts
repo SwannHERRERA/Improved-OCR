@@ -1,6 +1,6 @@
 import { should } from 'chai';
 import { describe, it } from 'mocha';
-import { illegalValidator } from '../src/classify-file';
+import { illegalValidator } from '../src/validation/validators';
 
 should();
 
