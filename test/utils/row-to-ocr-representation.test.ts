@@ -1,4 +1,4 @@
-import { rowToOcrRepresentation } from '../src/row-to-ocr-representation';
+import { rowToOcrRepresentation } from '../../src/utils/row-to-ocr-representation.utils';
 
 describe('test code-to-ocr-representation', () => {
     it('code 123456789 should return the same in ocr reprsentation', () => {

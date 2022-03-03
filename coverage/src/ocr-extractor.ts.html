@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -88,23 +88,23 @@
 <a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Parser } from './parsing/parser';
@@ -114,19 +114,19 @@ export class OcrExtractor {
     private parser: Parser;
     private codeToResult: CodeToResult;
 &nbsp;
-<span class="fstat-no" title="function not covered" >    co</span>nstructor(parser: Parser, codeToResult: CodeToResult) {
-<span class="cstat-no" title="statement not covered" >        this.parser = parser;</span>
-<span class="cstat-no" title="statement not covered" >        this.codeToResult = codeToResult;</span>
+    constructor(parser: Parser, codeToResult: CodeToResult) {
+        this.parser = parser;
+        this.codeToResult = codeToResult;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    as</span>ync extract(content: string[]): Promise&lt;string[][]&gt; {
-        const filesContent: string[][] = <span class="cstat-no" title="statement not covered" >[];</span>
+    async extract(content: string[]): Promise&lt;string[][]&gt; {
+        const filesContent: string[][] = [];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; content.length; i++) {</span>
-            const codes = <span class="cstat-no" title="statement not covered" >this.parser.extractCodes(content[i]);</span>
-<span class="cstat-no" title="statement not covered" >            filesContent.push(codes.map(<span class="fstat-no" title="function not covered" >(c</span>ode) =&gt; <span class="cstat-no" title="statement not covered" >this.codeToResult.format(code))</span>);</span>
+        for (let i = 0; i &lt; content.length; i++) {
+            const codes = this.parser.extractCodes(content[i]);
+            filesContent.push(codes.map((code) =&gt; this.codeToResult.format(code)));
         }
-<span class="cstat-no" title="statement not covered" >        return filesContent;</span>
+        return filesContent;
     }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -136,7 +136,7 @@ export class OcrExtractor {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Thu Mar 03 2022 07:44:22 GMT+0100 (Central European Standard Time)
+                at Thu Mar 03 2022 07:46:01 GMT+0100 (Central European Standard Time)
             </div>
         <script src="../prettify.js"></script>
         <script>

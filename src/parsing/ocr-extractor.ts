@@ -1,5 +1,5 @@
-import { Parser } from './parsing/parser';
-import { CodeToResult } from './validation/code-to-result';
+import { Parser } from './parser';
+import { CodeToResult } from '../validation/code-to-result';
 
 export class OcrExtractor {
     private parser: Parser;

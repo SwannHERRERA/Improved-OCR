@@ -1,6 +1,6 @@
-import { DIGIT_WIDTH } from './config';
-import { numberToOcrReference } from './number-to-ocr-reference';
-import { Writer } from './writer/writer';
+import { DIGIT_WIDTH } from '../config/config';
+import { numberToOcrReference } from '../config/number-to-ocr-reference';
+import { Writer } from '../writer/writer';
 
 export const rowToOcrRepresentation = (code: number[]): string => {
     const ocr = code.map((number) => {

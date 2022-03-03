@@ -1,14 +1,15 @@
 import { expect, should } from 'chai';
 import { describe, it } from 'mocha';
-import { DIGIT_HEIGHT, DIGIT_WIDTH, LINE_NUMBER_DIGIT } from '../src/config';
-import { parse, Parser } from '../src/parsing/parser';
+import { DIGIT_HEIGHT, DIGIT_WIDTH, LINE_NUMBER_DIGIT } from '../../src/config/config';
+import { Parser } from '../../src/parsing/parser';
+import {readFile} from '../../src/parsing/parse-file';
 
 should();
 
 describe('sanity check for reading file', () => {
     it('file does not exist', async () => {
         try {
-            await parse('file-doesnt-exist.txt');
+            await readFile('file-doesnt-exist.txt');
             expect.fail('file does not exist');
         } catch (error) {
             // do nothing
@@ -16,7 +17,7 @@ describe('sanity check for reading file', () => {
     });
     it('file exist', async () => {
         try {
-            await parse('test/fixtures/simple-digits/one.txt');
+            await readFile('test/fixtures/simple-digits/one.txt');
         } catch (error) {
             expect.fail('file does not exist');
         }
@@ -29,7 +30,7 @@ describe('test parsing individual number from files', () => {
     describe('individual number in file', () => {
         const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 1);
         it('file one should be equal to 1', async () => {
-            const fileContent = await parse(`${baseDigitPath}/one.txt`);
+            const fileContent = await readFile(`${baseDigitPath}/one.txt`);
             const str = parser.extractCodes(fileContent);
             str[0].should.be.equal('1');
         });
@@ -48,7 +49,7 @@ describe('test parsing individual number from files', () => {
                 `${baseDigitPath}/nine.txt`,
             ];
             filenames.forEach(async (filename, index) => {
-                const fileContent = await parse(filename);
+                const fileContent = await readFile(filename);
                 const str = parser.extractCodes(fileContent);
                 str[index + 1].should.be.equal((index + 1).toString());
             });
@@ -57,14 +58,14 @@ describe('test parsing individual number from files', () => {
     describe('Multiple numbers in one file and one entry', () => {
         it('parse one and two in the same file', async () => {
             const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, 2);
-            const fileContent = await parse('test/fixtures/one-two.txt');
+            const fileContent = await readFile('test/fixtures/one-two.txt');
             const str = parser.extractCodes(fileContent);
 
             str[0].should.be.equal('12');
         });
         it('parse one compelte entry', async () => {
             const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
-            const fileContent = await parse('test/fixtures/all-digit.txt');
+            const fileContent = await readFile('test/fixtures/all-digit.txt');
             const str = parser.extractCodes(fileContent);
 
             str[0].should.be.equal('123456789');
@@ -72,7 +73,7 @@ describe('test parsing individual number from files', () => {
 
         it('parse one compelte entry with some unreadable number ', async () => {
             const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
-            const fileContent = await parse('test/fixtures/entry-with-unreadable.txt');
+            const fileContent = await readFile('test/fixtures/entry-with-unreadable.txt');
             const str = parser.extractCodes(fileContent);
             str[0].should.be.equal('12345?78?');
         });
@@ -83,7 +84,7 @@ describe('test parsing individual number from files', () => {
             const resultCompleteEntries = ['123456789', '356619702'];
             const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
 
-            const fileContent = await parse(
+            const fileContent = await readFile(
                 'test/fixtures/complete-entries/two-complete-entries.txt'
             );
             const str = parser.extractCodes(fileContent);
@@ -102,7 +103,7 @@ describe('test parsing individual number from files', () => {
             }
             const parser = new Parser(DIGIT_WIDTH, DIGIT_HEIGHT, LINE_NUMBER_DIGIT);
 
-            const fileContent = await parse(
+            const fileContent = await readFile(
                 'test/fixtures/complete-entries/one-hundred-entries.txt'
             );
             const str = parser.extractCodes(fileContent);

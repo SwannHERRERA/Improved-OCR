@@ -2,7 +2,7 @@
 
 import { argv } from 'process';
 import { CommandParser } from './parsing/command-parser';
-import { CommandInteractor } from './command-interactor';
+import { CommandInteractor } from './parsing/command-interactor';
 
 import {
     argsConfigured,
@@ -12,12 +12,12 @@ import {
     FILE_INDEX_IN_COMMAND,
     LINE_NUMBER_DIGIT,
     validators,
-} from './config';
+} from './config/config';
 import { Parser } from './parsing/parser';
 import { WriterInConsole } from './writer/writer-in-console';
 import { CliHelper } from './helpers/cli-helper';
 import { Writer } from './writer/writer';
-import { OcrExtractor } from './ocr-extractor';
+import { OcrExtractor } from './parsing/ocr-extractor';
 import { SimpleClassifyConsole } from './classifier/classify-console';
 import { CodeToResult } from './validation/code-to-result';
 

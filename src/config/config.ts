@@ -1,5 +1,5 @@
-import { CliFunctionnality } from './parsing/command-parser';
-import { errorValidator, illegalValidator } from './validation/validators';
+import { CliFunctionnality } from '../parsing/command-parser';
+import { errorValidator, illegalValidator } from '../validation/validators';
 
 export const OUTPUT_DIR = '';
 

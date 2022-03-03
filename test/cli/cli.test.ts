@@ -1,9 +1,9 @@
 import { expect, should } from 'chai';
 import { describe, it } from 'mocha';
-import { CliHelper } from '../src/helpers/cli-helper';
-import { CommandParser } from '../src/parsing/command-parser';
-import { argsConfigured, argsWithoutValues } from '../src/config';
-import { WriterInConsole } from '../src/writer/writer-in-console';
+import { CliHelper } from '../../src/helpers/cli-helper';
+import { CommandParser } from '../../src/parsing/command-parser';
+import { argsConfigured, argsWithoutValues } from '../../src/config/config';
+import { WriterInConsole } from '../../src/writer/writer-in-console';
 
 should();
 

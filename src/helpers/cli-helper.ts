@@ -1,9 +1,6 @@
-import { textHelpers } from '../config';
+import { textHelpers } from '../config/config';
 import { Writer } from '../writer/writer';
-
-export interface Helper {
-    print(): void;
-}
+import { Helper } from './helper';
 export class CliHelper implements Helper {
     private writer: Writer;
     constructor(writer: Writer) {

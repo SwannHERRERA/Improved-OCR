@@ -1,9 +1,9 @@
 import { unlink } from 'fs/promises';
-import { computeChecksumValue, validCheckSum } from '../src/checksum';
-import { parse } from '../src/parsing/parser';
-import { GroupClasifyFile, SingleClassifyFile } from '../src/classifier/classify-file';
-import { CodeToResult } from '../src/validation/code-to-result';
-import { errorValidator, illegalValidator } from '../src/validation/validators';
+import { computeChecksumValue, validCheckSum } from '../../src/validation/checksum';
+import { readFile } from '../../src/parsing/parse-file';
+import { GroupClasifyFile, SingleClassifyFile } from '../../src/classifier/classify-file';
+import { CodeToResult } from '../../src/validation/code-to-result';
+import { errorValidator, illegalValidator } from '../../src/validation/validators';
 
 describe('test code to result format in result file', () => {
     const codeToResult = new CodeToResult(
@@ -50,17 +50,17 @@ describe('test code to result format in result file', () => {
                 outputPaths
             );
             await classifier.write(paths);
-            const twoCompleteEntryResult = await parse(
+            const twoCompleteEntryResult = await readFile(
                 'test/fixtures/complete-entries/two-complete-entries.txt.result'
             );
             twoCompleteEntryResult.should.be.equal('123456789\n356619702');
 
-            const checksumErrorResult = await parse(
+            const checksumErrorResult = await readFile(
                 'test/fixtures/complete-entries/checksum-error.txt.result'
             );
             checksumErrorResult.should.be.equal('123456789\n356619782 ERR');
 
-            const entryWithUnreadableResult = await parse(
+            const entryWithUnreadableResult = await readFile(
                 'test/fixtures/entry-with-unreadable.txt.result'
             );
             entryWithUnreadableResult.should.be.equal('12345?78? ILL');
@@ -86,11 +86,11 @@ describe('test code to result format in result file', () => {
                 'test/fixtures/result-'
             );
             await classifier.write(paths);
-            const resultAuthorized = await parse('test/fixtures/result-Authorized');
+            const resultAuthorized = await readFile('test/fixtures/result-Authorized');
             resultAuthorized.should.be.equal('123456789\n356619702\n123456789\n');
-            const resultUnknown = await parse('test/fixtures/result-Unknown');
+            const resultUnknown = await readFile('test/fixtures/result-Unknown');
             resultUnknown.should.be.equal('12345?78? ILL\n');
-            const resultErrored = await parse('test/fixtures/result-Errored');
+            const resultErrored = await readFile('test/fixtures/result-Errored');
             resultErrored.should.be.equal('356619782 ERR\n');
             await unlink('test/fixtures/result-Authorized');
             await unlink('test/fixtures/result-Errored');

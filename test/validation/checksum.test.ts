@@ -1,7 +1,7 @@
 import { should } from 'chai';
 import { describe, it } from 'mocha';
-import { computeChecksumValue, validCheckSum } from '../src/checksum';
-import { errorValidator } from '../src/validation/validators';
+import { computeChecksumValue, validCheckSum } from '../../src/validation/checksum';
+import { errorValidator } from '../../src/validation/validators';
 
 should();
 

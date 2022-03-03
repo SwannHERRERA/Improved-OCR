@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.51% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/29</span>
+                <span class='fraction'>0/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/10</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.21% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/23</span>
+                <span class='fraction'>0/21</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -99,32 +99,32 @@
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">36x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -139,28 +139,28 @@
 import { numberToOcrReference } from './number-to-ocr-reference';
 import { Writer } from './writer/writer';
 &nbsp;
-export const rowToOcrRepresentation = (code: number[]): string =&gt; {
-    const ocr = code.map((number) =&gt; {
-        return numberToOcrReference.get(number)<span class="branch-0 cbranch-no" title="branch not covered" >?.s</span>plit('\n').splice(1, 4) ?? <span class="branch-1 cbranch-no" title="branch not covered" >'';</span>
+export const rowToOcrRepresentation = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(c</span>ode: number[]): string =&gt; {</span>
+    const ocr = <span class="cstat-no" title="statement not covered" >code.map(<span class="fstat-no" title="function not covered" >(n</span>umber) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        return numberToOcrReference.get(number)?.split('\n').splice(1, 4) ?? '';</span>
     });
 &nbsp;
-    let strTotal = '';
-    for (let e = 0; e &lt; 4; e++) {
-        let strLine = '';
-        for (let i = 0; i &lt; ocr.length; i++) {
-            strLine += ocr[i][e];
+    let strTotal = <span class="cstat-no" title="statement not covered" >'';</span>
+<span class="cstat-no" title="statement not covered" >    for (let e = <span class="cstat-no" title="statement not covered" >0;</span> e &lt; 4; e++) {</span>
+        let strLine = <span class="cstat-no" title="statement not covered" >'';</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; ocr.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >            strLine += ocr[i][e];</span>
         }
-        if (e &lt; 3) {
-            strTotal += strLine + '\n';
+<span class="cstat-no" title="statement not covered" >        if (e &lt; 3) {</span>
+<span class="cstat-no" title="statement not covered" >            strTotal += strLine + '\n';</span>
         } else {
-            strTotal += ' '.repeat(DIGIT_WIDTH * 9);
+<span class="cstat-no" title="statement not covered" >            strTotal += ' '.repeat(DIGIT_WIDTH * 9);</span>
         }
     }
 &nbsp;
-    return strTotal;
+<span class="cstat-no" title="statement not covered" >    return strTotal;</span>
 };
 &nbsp;
-export const constrcutOneHundredOCREntries = <span class="fstat-no" title="function not covered" >async (w</span>riter: Writer) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
+export const constrcutOneHundredOCREntries = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync (writer: Writer) =&gt; {</span>
     const str: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
 <span class="cstat-no" title="statement not covered" >    for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; 20; i++) {</span>
 <span class="cstat-no" title="statement not covered" >        str.push(rowToOcrRepresentation([1, 2, 3, 4, 5, 6, 7, 8, 9]));</span>
@@ -178,7 +178,7 @@ export const constrcutOneHundredOCREntries = <span class="fstat-no" title="funct
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Thu Mar 03 2022 07:44:22 GMT+0100 (Central European Standard Time)
+                at Thu Mar 03 2022 07:46:01 GMT+0100 (Central European Standard Time)
             </div>
         <script src="../prettify.js"></script>
         <script>

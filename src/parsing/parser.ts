@@ -1,6 +1,4 @@
-import fs from 'fs/promises';
-import { NoSuchFileOrDirectory } from '../error/no-such-file-or-directory';
-import { OcrReferenceToNumber } from '../number-to-ocr-reference';
+import { OcrReferenceToNumber } from '../config/number-to-ocr-reference';
 
 export class Parser {
     private digitWidth: number;
@@ -50,11 +48,3 @@ export class Parser {
         return str;
     }
 }
-
-export const parse = async (pathToFile: string): Promise<string> => {
-    try {
-        return await fs.readFile(pathToFile, { encoding: 'utf-8' });
-    } catch (error) {
-        throw new NoSuchFileOrDirectory('file does not exist');
-    }
-};

@@ -1,4 +1,4 @@
-import { Helper } from '../helpers/cli-helper';
+import { Helper } from '../helpers/helper';
 import { ArgNotFound } from '../error/arg-not-found';
 
 export enum CliFunctionnality {

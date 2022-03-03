@@ -1,4 +1,4 @@
-import { computeChecksumValue, validCheckSum } from '../checksum';
+import { computeChecksumValue, validCheckSum } from './checksum';
 
 // eslint-disable-next-line no-unused-vars
 export type Validator = (code: string) => boolean;

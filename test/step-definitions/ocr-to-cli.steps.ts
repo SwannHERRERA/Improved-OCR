@@ -3,7 +3,7 @@ import { DataTable } from '@cucumber/cucumber';
 import { binding, given, then, when } from 'cucumber-tsflow';
 import { ClassifyConsole } from '../../src/classifier/classify-console';
 import { CliHelper } from '../../src/helpers/cli-helper';
-import { CommandInteractor } from '../../src/command-interactor';
+import { CommandInteractor } from '../../src/parsing/command-interactor';
 import { CommandParser } from '../../src/parsing/command-parser';
 import {
     argsConfigured,
@@ -11,9 +11,10 @@ import {
     DIGIT_HEIGHT,
     DIGIT_WIDTH,
     LINE_NUMBER_DIGIT,
-} from '../../src/config';
-import { OcrExtractor } from '../../src/ocr-extractor';
-import { parse, Parser } from '../../src/parsing/parser';
+} from '../../src/config/config';
+import { OcrExtractor } from '../../src/parsing/ocr-extractor';
+import { Parser } from '../../src/parsing/parser';
+import { readFile } from '../../src/parsing/parse-file';
 import { WriterInConsole } from '../../src/writer/writer-in-console';
 import { MockClassifierConsole } from '../writer/classifier-console-mock.test';
 
@@ -156,7 +157,7 @@ export class OcrToCli {
         await this.commandInteractor.meshToOutput(this.argument);
         pathFile = `${__dirname}/../../${pathFile.replace(/"/g, '')}`;
 
-        const resultFile = await parse(pathFile);
+        const resultFile = await readFile(pathFile);
         const linesExpected = expected.raw();
         linesExpected[0][0].should.be.equal(resultFile);
     }

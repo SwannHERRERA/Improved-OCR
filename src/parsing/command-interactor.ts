@@ -1,10 +1,10 @@
-import { ClassifyConsole } from './classifier/classify-console';
-import { Helper } from './helpers/cli-helper';
-import { CliFunctionnality } from './parsing/command-parser';
-import { OUTPUT_DIR } from './config';
+import { ClassifyConsole } from '../classifier/classify-console';
+import { Helper } from '../helpers/helper';
+import { CliFunctionnality } from './command-parser';
+import { OUTPUT_DIR } from '../config/config';
 import { OcrExtractor } from './ocr-extractor';
-import { parse } from './parsing/parser';
-import { ClassifyFile, GroupClasifyFile, SingleClassifyFile } from './classifier/classify-file';
+import { readFile } from './parse-file';
+import { ClassifyFile, GroupClasifyFile, SingleClassifyFile } from '../classifier/classify-file';
 
 export class CommandInteractor {
     private ocrExtractor: OcrExtractor;
@@ -42,7 +42,7 @@ export class CommandInteractor {
             this.helper.print();
         } else if (inputFiles) {
             const outputs: string[][] = await this.ocrExtractor.extract(
-                await Promise.all(inputFiles.map(async (inputFile) => await parse(inputFile)))
+                await Promise.all(inputFiles.map(async (inputFile) => await readFile(inputFile)))
             );
 
             if (isConsoleOutput) {
