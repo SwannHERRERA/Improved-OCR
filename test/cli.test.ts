@@ -1,8 +1,7 @@
 import { expect, should } from 'chai';
-import exp from 'constants';
 import { describe, it } from 'mocha';
-import { CliHelper } from '../src/cli-helper';
-import { CommandParser } from '../src/command-parser';
+import { CliHelper } from '../src/helpers/cli-helper';
+import { CommandParser } from '../src/parsing/command-parser';
 import { argsConfigured, argsWithoutValues } from '../src/config';
 import { WriterInConsole } from '../src/writer/writer-in-console';
 
@@ -73,6 +72,8 @@ describe('test cli parse', () => {
         try {
             cli.parse('');
             expect.fail('should throw an error to interrupt program');
-        } catch (e) {}
+        } catch (e) {
+            // do nothing
+        }
     });
 });

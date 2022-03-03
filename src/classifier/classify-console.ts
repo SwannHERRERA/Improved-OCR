@@ -1,4 +1,4 @@
-import { WriterInConsole } from "./writer/writer-in-console";
+import { WriterInConsole } from '../writer/writer-in-console';
 
 export interface ClassifyConsole {
     // eslint-disable-next-line no-unused-vars

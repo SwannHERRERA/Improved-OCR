@@ -1,5 +1,5 @@
-import { Helper } from './cli-helper';
-import { ArgNotFound } from './error/arg-not-found';
+import { Helper } from '../helpers/cli-helper';
+import { ArgNotFound } from '../error/arg-not-found';
 
 export enum CliFunctionnality {
     // eslint-disable-next-line no-unused-vars

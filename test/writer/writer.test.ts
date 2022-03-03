@@ -2,7 +2,7 @@ import { expect, should } from 'chai';
 import { spawn } from 'child_process';
 import { unlink } from 'fs/promises';
 import path from 'path';
-import { parse } from '../../src/parser';
+import { parse } from '../../src/parsing/parser';
 import { WriterInFile } from '../../src/writer/writer-in-file';
 
 should();
@@ -54,9 +54,7 @@ describe('test to write', () => {
 
     describe('in the console', () => {
         it('write string in the console', (done) => {
-            const testAppFilePath = path.join(
-                __dirname + '../../../src/writer/test-utils/write-in-console.ts'
-            );
+            const testAppFilePath = path.join(__dirname + '/test-utils/write-in-console.ts');
             const testApp = spawn('ts-node', [testAppFilePath]);
 
             testApp.stdout.on('data', (data: Buffer) => {

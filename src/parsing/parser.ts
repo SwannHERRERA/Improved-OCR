@@ -1,11 +1,11 @@
 import fs from 'fs/promises';
-import { NoSuchFileOrDirectory } from './error/no-such-file-or-directory';
-import { OcrReferenceToNumber } from './number-to-ocr-reference';
+import { NoSuchFileOrDirectory } from '../error/no-such-file-or-directory';
+import { OcrReferenceToNumber } from '../number-to-ocr-reference';
 
 export class Parser {
     private digitWidth: number;
     private digitHeight: number;
-    private lineNumberDigit: number
+    private lineNumberDigit: number;
 
     constructor(digitWidth: number, digitHeight: number, lineNumberDigit: number) {
         this.digitHeight = digitHeight;
@@ -58,4 +58,3 @@ export const parse = async (pathToFile: string): Promise<string> => {
         throw new NoSuchFileOrDirectory('file does not exist');
     }
 };
-

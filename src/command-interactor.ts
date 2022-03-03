@@ -1,10 +1,10 @@
-import { ClassifyConsole } from './classify-console';
-import { Helper } from './cli-helper';
-import { CliFunctionnality } from './command-parser';
+import { ClassifyConsole } from './classifier/classify-console';
+import { Helper } from './helpers/cli-helper';
+import { CliFunctionnality } from './parsing/command-parser';
 import { OUTPUT_DIR } from './config';
 import { OcrExtractor } from './ocr-extractor';
-import { parse } from './parser';
-import { ClassifyFile, GroupClasifyFile, SingleClassifyFile } from './classify-file';
+import { parse } from './parsing/parser';
+import { ClassifyFile, GroupClasifyFile, SingleClassifyFile } from './classifier/classify-file';
 
 export class CommandInteractor {
     private ocrExtractor: OcrExtractor;

@@ -1,28 +1,36 @@
 import { unlink } from 'fs/promises';
 import { computeChecksumValue, validCheckSum } from '../src/checksum';
-import { parse } from '../src/parser';
-import { GroupClasifyFile, SingleClassifyFile, codeToResultFormat } from '../src/classify-file';
+import { parse } from '../src/parsing/parser';
+import { GroupClasifyFile, SingleClassifyFile } from '../src/classifier/classify-file';
+import { CodeToResult } from '../src/validation/code-to-result';
+import { errorValidator, illegalValidator } from '../src/validation/validators';
 
 describe('test code to result format in result file', () => {
+    const codeToResult = new CodeToResult(
+        new Map([
+            [' ILL', illegalValidator],
+            [' ERR', errorValidator],
+        ])
+    );
     describe('change code to result format', () => {
         it('from 123456789 code to 123456789 format because valid the checksum', () => {
             const code = '123456789';
 
             validCheckSum(computeChecksumValue(code)).should.be.true;
-            codeToResultFormat(code).should.equal('123456789');
+            codeToResult.format(code).should.equal('123456789');
         });
 
         it("from 337465890 code to 337465890 format because don't validate the checksum", () => {
             const code = '337465890';
 
             validCheckSum(computeChecksumValue(code)).should.be.false;
-            codeToResultFormat(code).should.equal('337465890 ERR');
+            codeToResult.format(code).should.equal('337465890 ERR');
         });
 
         it("from 33-1465-192 code to 33?465?92 format because don't validate the checksum", () => {
             const code = '33?465?92';
 
-            codeToResultFormat(code).should.equal('33?465?92 ILL');
+            codeToResult.format(code).should.equal('33?465?92 ILL');
         });
     });
     describe('ClassifySingle', async () => {
