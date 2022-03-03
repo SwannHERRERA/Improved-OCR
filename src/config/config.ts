@@ -23,11 +23,11 @@ export const validators = new Map([
 ]);
 
 export const textHelpers = [
-    'usage: ./src/exec-improved-ocr.ts -f FileInputPath ...',
+    'usage: ./src/main.ts -f FileInputPath ...',
     'translate ocr files to number representation in three files Authorized Errored Unknown (you can specify multiple input files)\n',
-    'usage: ./src/exec-improved-ocr.ts -f FilePath -o fileouputPath ...',
+    'usage: ./src/main.ts -f FilePath -o fileouputPath ...',
     'translate ocr file to number representation in the ouput file corresponding (you can specify multiple conbinations)\n',
-    'usage: ./src/exec-improved-ocr.ts -c -f FilePath ...',
+    'usage: ./src/main.ts -c -f FilePath ...',
     'translate ocr file to number representation in the console (you can specify multiple input files)\n',
     'optional arguments:',
     '   -h                show this help message and exit',

@@ -6,13 +6,13 @@
 - replace {/usr/bin/env npx} by the path of your npx command
 
 ```zsh
-(echo "#\!/usr/bin/env npx ts-node" && cat src/exec-improved-ocr.ts) > src/exec-improved-ocr2.ts && mv src/exec-improved-ocr2.ts src/exec-improved-ocr.ts
+(echo "#\!/usr/bin/env npx ts-node" && cat src/main.ts) > src/main2.ts && mv src/main2.ts src/main.ts
 ```
 
 - Secondly give the good right to exec your file
 
 ```zsh
-chmod +x src/exec-improved-ocr.ts
+chmod +x src/main.ts
 ```
 
 ```zsh
